@@ -5,8 +5,8 @@ from rest_framework import status
 from fedhr.api.mixins import ApiAuthMixin
 from fedhr.common.utils import get_object
 from fedhr.employee.services import employee_create, employee_update, employee_delete
-from fedhr.employee.selectors import employee_detail, employee_list, station_list
-from fedhr.employee.models import Employee, Station
+from fedhr.employee.selectors import employee_detail, employee_list
+from fedhr.employee.models import Employee
 
 
 class EmployeeCreateApi(ApiAuthMixin, APIView):
@@ -16,10 +16,6 @@ class EmployeeCreateApi(ApiAuthMixin, APIView):
             middle_name = serializers.CharField(max_length=255, required=False)
             gender =  serializers.ChoiceField(choices=Employee.Gender.choices, required=True)
             email = serializers.EmailField(max_length=255, required=True)
-            phone_number = serializers.CharField(max_length=30, required=True)
-            address = serializers.CharField(max_length=255, required=False)
-            station =  serializers.PrimaryKeyRelatedField(queryset=Station.objects.all())
-
 
     def post(self, request):
         serializer = self.InputSerializer(data=request.data)
@@ -39,16 +35,12 @@ class EmployeeListApi(ApiAuthMixin, APIView):
         full_name = serializers.CharField()
         gender =  serializers.ChoiceField(choices=Employee.Gender.choices, required=True)
         email = serializers.EmailField(max_length=255, required=True)
-        phone_number = serializers.CharField(max_length=30, required=True)
-        address = serializers.CharField(max_length=255, required=False)
-        station =  serializers.PrimaryKeyRelatedField(queryset=Station.objects.all())
 
 
     class FilterSerializer(serializers.Serializer):
         first_name = serializers.CharField(max_length=255, required=False)
         last_name = serializers.CharField(max_length=255, required=False)
         email = serializers.EmailField(max_length=255, required=False)
-        phone_number = serializers.CharField(max_length=30, required=False)
 
     def get(self, request):
         # Make sure the filters are valid
@@ -70,10 +62,6 @@ class EmployeeDetailApi(ApiAuthMixin, APIView):
         full_name = serializers.CharField()
         gender =  serializers.ChoiceField(choices=Employee.Gender.choices, required=True)
         email = serializers.EmailField(max_length=255, required=True)
-        phone_number = serializers.CharField(max_length=30, required=True)
-        address = serializers.CharField(max_length=255, required=False)
-        station =  serializers.PrimaryKeyRelatedField(queryset=Station.objects.all())
-
 
     def get(self, request, employee_id):
 
@@ -90,10 +78,6 @@ class EmployeeUpdateApi(ApiAuthMixin, APIView):
         middle_name = serializers.CharField(max_length=255, required=False)
         gender =  serializers.ChoiceField(choices=Employee.Gender.choices, required=False)
         email = serializers.EmailField(max_length=255, required=False)
-        phone_number = serializers.CharField(max_length=30, required=False)
-        address = serializers.CharField(max_length=255, required=False)
-        station =  serializers.PrimaryKeyRelatedField(queryset=Station.objects.all(), required=False)
-
 
     def post(self, request, employee_id):
         serializer = self.InputSerializer(data=request.data)
@@ -112,32 +96,3 @@ class EmployeeDeleteApi(ApiAuthMixin, APIView):
         employee_delete(employee=employee)
 
         return Response(status=status.HTTP_200_OK)
-
-
-class StationListApi(ApiAuthMixin, APIView):
-    class OutputSerializer(serializers.Serializer):
-        class DivisionSerializer(serializers.Serializer):
-            class RegionSerializer(serializers.Serializer):
-                id = serializers.IntegerField()
-                name = serializers.CharField(max_length=255)
-
-            id = serializers.IntegerField()
-            name = serializers.CharField(max_length=255)
-            region = RegionSerializer()
-
-        id = serializers.IntegerField()
-        name = serializers.CharField(max_length=255)
-        division = DivisionSerializer()
-
-    class FilterSerializer(serializers.Serializer):
-        name = serializers.CharField(max_length=255, required=False)
-
-    def get(self, request):
-        # Make sure the filters are valid
-        filters_serializer = self.FilterSerializer(data=request.query_params)
-        filters_serializer.is_valid(raise_exception=True)
-
-        stations = station_list(filters=filters_serializer.validated_data)
-
-        data = self.OutputSerializer(stations, many=True).data
-        return Response(data)
