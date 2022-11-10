@@ -12,20 +12,14 @@ def employee_create(
     last_name,
     middle_name,
     gender,
-    email,
-    phone_number,
-    address,
-    station
+    email
 ) -> Employee:
     employee = Employee(
         first_name=first_name,
         last_name=last_name,
         middle_name=middle_name,
         gender=gender,
-        email=email,
-        phone_number=phone_number,
-        address=address,
-        station=station
+        email=email
     )
 
     employee.full_clean()
