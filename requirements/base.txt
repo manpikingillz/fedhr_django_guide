@@ -18,3 +18,5 @@ drf-jwt==1.19.2
 
 boto3==1.23.0
 attrs==21.4.0
+
+django-jazzmin
