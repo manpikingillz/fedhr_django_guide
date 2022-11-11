@@ -24,3 +24,6 @@ class Email(BaseModel):
     plain_text = models.TextField()
 
     sent_at = models.DateTimeField(blank=True, null=True)
+    
+    def __str__(self) -> str:
+        return self.subject
