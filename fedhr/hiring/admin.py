@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from fedhr.hiring.models import ApplicationStatus, Candidate, JobApplication, JobApplicationComment, JobApplicationEmail, JobApplicationQuestionAnswer, JobOpening, JobOpeningQuestion, Question, QuestionType, TalentPool, TalentPoolApplicant
+from fedhr.hiring.models import (
+    ApplicationStatus, Candidate, JobApplication,
+    JobApplicationComment, JobApplicationEmail,
+    JobApplicationQuestionAnswer, JobOpening,
+    JobOpeningQuestion, Question, QuestionType,
+    TalentPool, TalentPoolApplicant)
 
 
 @admin.register(JobOpening)
@@ -75,8 +80,10 @@ class JobApplicationAdmin(admin.ModelAdmin):
 
 @admin.register(JobApplicationQuestionAnswer)
 class JobApplicationQuestionAnswerAdmin(admin.ModelAdmin):
-    fields = ('job_application', 'candidate', 'removed')
-    list_display = ('job_application', 'candidate', 'removed')
+    fields = ('job_application', 'job_opening_question',
+              'candidate', 'answer', 'removed')
+    list_display = ('job_application', 'job_opening_question',
+                    'candidate', 'answer', 'removed')
 
 
 @admin.register(JobApplicationComment)

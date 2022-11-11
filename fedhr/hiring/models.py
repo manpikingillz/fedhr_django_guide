@@ -16,7 +16,6 @@ class EmploymentType(BaseModel):
         return self.employment_type_name
 
 
-# Create your models here.
 class JobOpening(BaseModel):
     class JobStatus(models.TextChoices):
         DRAFT = 'DRAFT', 'Draft'
@@ -64,6 +63,9 @@ class JobOpening(BaseModel):
         max_digits=12, decimal_places=2,
         null=True, blank=True)
 
+    def __str__(self) -> str:
+        return self.job_title
+
 
 class QuestionType(BaseModel):
     '''
@@ -103,6 +105,9 @@ class Question(BaseModel):
     question_category = models.CharField(
         choices=QuestionCategory.choices, max_length=50)
 
+    def __str__(self) -> str:
+        return self.question_name
+
 
 class JobOpeningQuestion(BaseModel):
     job_opening = models.ForeignKey(
@@ -120,6 +125,9 @@ class JobOpeningQuestion(BaseModel):
                 name='unique_job_opening_question'
             )
         ]
+
+    def __str__(self) -> str:
+        return f'{self.job_opening.job_title}: {self.question.question_name}'
 
 
 class Candidate(BaseModel):
@@ -153,6 +161,12 @@ class Candidate(BaseModel):
         max_length=255, null=True, blank=True)
     referrence = models.CharField(max_length=255, null=True, blank=True)
 
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name}'
+
+    def full_name(self) -> str:
+        return f'{self.first_name} {self.last_name}'
+
 
 class ApplicationStatus(BaseModel):
     '''
@@ -161,6 +175,9 @@ class ApplicationStatus(BaseModel):
               Interviewed, Put on Hold, Checking referrences, Offer Sent, Hired
     '''
     application_status_name = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.application_status_name
 
 
 class JobApplication(BaseModel):
@@ -177,16 +194,25 @@ class JobApplication(BaseModel):
         related_name='job_applications',
         on_delete=models.SET_NULL, null=True, blank=True)
 
+    def __str__(self) -> str:
+        return f'{self.job_opening.job_title} : \
+            {self.candidate.first_name} {self.candidate.last_name}'
+
 
 class JobApplicationQuestionAnswer(BaseModel):
     job_application = models.ForeignKey(
         JobApplication,
         on_delete=models.CASCADE,
         related_name='job_application_question_answers')
+    job_opening_question = models.ForeignKey(
+        JobOpeningQuestion, related_name='job_application_question_answers',
+        on_delete=models.CASCADE, null=True, blank=True)
     candidate = models.ForeignKey(
         Candidate,
         on_delete=models.CASCADE,
         related_name='job_application_question_answers')
+
+    answer = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
         constraints = [
@@ -194,6 +220,9 @@ class JobApplicationQuestionAnswer(BaseModel):
                 fields=['job_application', 'candidate'],
                 name='unique_job_application_candidate_answer')
         ]
+
+    def __str__(self) -> str:
+        return f'{self.job_application.job_opening.job_title} : {self.answer}'
 
 
 class JobApplicationComment(BaseModel):
@@ -212,6 +241,9 @@ class JobApplicationComment(BaseModel):
         related_name='job_application_comment_replies',
         null=True, blank=True)
 
+    def __str__(self) -> str:
+        return f'{self.job_application.job_opening.job_title} : {self.comment}'
+
 
 class JobApplicationEmail(BaseModel):
     job_application = models.ForeignKey(
@@ -225,10 +257,16 @@ class JobApplicationEmail(BaseModel):
         null=True, blank=True)
     email = models.ForeignKey(Email, on_delete=models.CASCADE)
 
+    def __str__(self) -> str:
+        return f'{self.job_application.job_opening.job_title}: {self.email.subject}'
+
 
 class TalentPool(BaseModel):
     talent_pool_name = models.CharField(max_length=255)
     description = models.TextField()
+
+    def __str__(self) -> str:
+        return self.talent_pool_name
 
 
 class TalentPoolApplicant(BaseModel):
@@ -239,3 +277,6 @@ class TalentPoolApplicant(BaseModel):
         on_delete=models.SET_NULL,
         null=True, blank=True)
     reason_for_adding_candidate = models.TextField()
+
+    def __str__(self) -> str:
+        return f'{self.talent_pool.talent_pool_name} : {self.candidate.full_name}'
