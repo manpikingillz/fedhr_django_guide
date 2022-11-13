@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from fedhr.timeoff.models import AccrualMilestone, Holiday, LeaveCategory, LeavePolicy, LeaveRequest, WorkWeek
+from fedhr.timeoff.models import AccrualMilestone, Holiday, LeaveBalance, LeaveCategory, LeavePolicy, LeaveRequest, WorkWeek
 
 
 @admin.register(LeaveCategory)
@@ -111,6 +111,23 @@ class LeaveRequestAdmin(admin.ModelAdmin):
         'amount',
         'reason',
         'status'
+    )
+
+
+@admin.register(LeaveBalance)
+class LeaveBalanceAdmin(admin.ModelAdmin):
+    fields = (
+        'employee',
+        'leave_category',
+        'current_balance',
+        'used',
+        'removed'
+    )
+    list_display = (
+        'employee',
+        'leave_category',
+        'current_balance',
+        'used'
     )
 
 

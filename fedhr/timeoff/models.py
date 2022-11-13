@@ -284,6 +284,25 @@ class LeaveRequest(BaseModel):
         return f'{str(self.employee)} : {self.from_date} - {self.to_date}'
 
 
+class LeaveBalance(BaseModel):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    leave_category = models.ForeignKey(
+        LeaveCategory, on_delete=models.CASCADE)
+    current_balance = models.FloatField(default=0)
+    used = models.FloatField(default=0)
+
+    def __str__(self) -> str:
+        return f'{str(self.employee)}: {str(self.leave_category)} : {self.current_balance}'
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['employee', 'leave_category'],
+                name='unique_employee_leave_category'
+            )
+        ]
+
+
 class Holiday(BaseModel):
     holiday_name = models.CharField(max_length=255)
     observed_date = models.DateField()
