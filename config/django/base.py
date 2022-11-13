@@ -43,7 +43,8 @@ LOCAL_APPS = [
     'fedhr.emails.apps.EmailsConfig',
     'fedhr.setup.apps.SetupConfig',
     'fedhr.employee.apps.EmployeeConfig',
-    'fedhr.hiring.apps.HiringConfig'
+    'fedhr.hiring.apps.HiringConfig',
+    'fedhr.timeoff.apps.TimeoffConfig'
 ]
 
 THIRD_PARTY_APPS = [
@@ -57,7 +58,7 @@ THIRD_PARTY_APPS = [
 ]
 
 INSTALLED_APPS = [
-    'jazzmin', # Must be added before 'django.contrib.admin'
+    'jazzmin',  # Must be added before 'django.contrib.admin'
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -188,7 +189,7 @@ JAZZMIN_SETTINGS = {
     # 'order_with_respect_to': ['employee', 'hiring'],
     'order_with_respect_to': [
         # order of apps
-        'employee', 'hiring',
+        'employee', 'hiring', 'timeoff',
 
         # order of employee models
         'employee.Employee',
@@ -210,7 +211,14 @@ JAZZMIN_SETTINGS = {
         'hiring.JobApplicationEmail',
         'hiring.JobApplicationComment',
         'hiring.TalentPool',
-        'hiring.TalentPoolApplicant'
+        'hiring.TalentPoolApplicant',
+
+        # order of timeoff models
+        'timeoff.LeaveCategory',
+        'timeoff.LeavePolicy',
+        'timeoff.AccrualMilestone',
+        'timeoff.Holiday',
+        'timeoff.WorkWeek'
     ],
 
     'topmenu_links': [
@@ -221,6 +229,7 @@ JAZZMIN_SETTINGS = {
         # App with dropdown menu to all its models pages (Permissions checked against models)
         {'app': 'employee'},
         {'app': 'hiring'},
+        {'app': 'timeoff'},
     ],
     'search_model': ['employee.Employee', ],
     'welcome_sign': 'Welcome to FedHR',
