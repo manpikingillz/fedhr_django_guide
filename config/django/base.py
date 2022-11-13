@@ -44,7 +44,8 @@ LOCAL_APPS = [
     'fedhr.setup.apps.SetupConfig',
     'fedhr.employee.apps.EmployeeConfig',
     'fedhr.hiring.apps.HiringConfig',
-    'fedhr.timeoff.apps.TimeoffConfig'
+    'fedhr.timeoff.apps.TimeoffConfig',
+    'fedhr.scheduling.apps.SchedulingConfig',
 ]
 
 THIRD_PARTY_APPS = [
@@ -189,7 +190,7 @@ JAZZMIN_SETTINGS = {
     # 'order_with_respect_to': ['employee', 'hiring'],
     'order_with_respect_to': [
         # order of apps
-        'employee', 'hiring', 'timeoff',
+        'employee', 'hiring', 'timeoff', 'scheduling',
 
         # order of employee models
         'employee.Employee',
@@ -230,6 +231,7 @@ JAZZMIN_SETTINGS = {
         {'app': 'employee'},
         {'app': 'hiring'},
         {'app': 'timeoff'},
+        {'app': 'scheduling'},
     ],
     'search_model': ['employee.Employee', ],
     'welcome_sign': 'Welcome to FedHR',

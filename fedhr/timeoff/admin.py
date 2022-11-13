@@ -149,7 +149,7 @@ class HolidayAdmin(admin.ModelAdmin):
 class WorkWeekAdmin(admin.ModelAdmin):
     fields = (
         'work_week',
-        'hours_per_workday'
+        'hours_per_workday',
         'removed'
     )
     list_display = (
