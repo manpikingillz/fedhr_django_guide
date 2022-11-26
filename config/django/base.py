@@ -46,6 +46,7 @@ LOCAL_APPS = [
     'fedhr.hiring.apps.HiringConfig',
     'fedhr.timeoff.apps.TimeoffConfig',
     'fedhr.scheduling.apps.SchedulingConfig',
+    'fedhr.payroll.apps.PayrollConfig'
 ]
 
 THIRD_PARTY_APPS = [
@@ -190,7 +191,7 @@ JAZZMIN_SETTINGS = {
     # 'order_with_respect_to': ['employee', 'hiring'],
     'order_with_respect_to': [
         # order of apps
-        'employee', 'hiring', 'timeoff', 'scheduling',
+        'employee', 'hiring', 'timeoff', 'scheduling', 'payroll',
 
         # order of employee models
         'employee.Employee',
@@ -219,7 +220,11 @@ JAZZMIN_SETTINGS = {
         'timeoff.LeavePolicy',
         'timeoff.AccrualMilestone',
         'timeoff.Holiday',
-        'timeoff.WorkWeek'
+        'timeoff.WorkWeek',
+
+        # order of payroll models
+        'payroll.EmployeePayroll',
+        'payroll.PayrollPeriod',
     ],
 
     'topmenu_links': [
