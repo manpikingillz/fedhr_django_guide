@@ -1,102 +1,20 @@
 import graphene
-from graphene_django import DjangoObjectType
 
-from fedhr.employee.models import Employee
-from graphql_auth.schema import UserQuery, MeQuery
-from graphql_auth import mutations
+from fedhr.users.graph.schema import schema as users_schema
+from fedhr.employee.graph.schema import schema as employee_schema
 
 
-class EmployeeType(DjangoObjectType):
-    class Meta:
-        model = Employee
-        fields = ('first_name', 'last_name', 'middle_name')
-
-
-class EmployeeQueries(graphene.ObjectType):
-    all_employees = graphene.List(EmployeeType)
-    employee_by_first_name = graphene.Field(
-        EmployeeType, first_name=graphene.String())
-
-    # Resolvers
-    def resolve_all_employees(root, info):
-        return Employee.objects.all()
-
-    def resolve_employee_by_first_name(root, info, first_name):
-        try:
-            return Employee.objects.get(first_name=first_name)
-        except Employee.DoesNotExist:
-            return None
-
-
-class UserQueries(UserQuery, MeQuery, graphene.ObjectType):
+class Query(
+    users_schema.Query,
+    employee_schema.Query
+):
     pass
 
 
-class Query(UserQueries, EmployeeQueries):
-    pass
-
-
-class AuthMutation(graphene.ObjectType):
-    register = mutations.Register.Field()
-    verify_account = mutations.VerifyAccount.Field()
-    token_auth = mutations.ObtainJSONWebToken.Field()
-    update_account = mutations.UpdateAccount.Field()
-
-
-class CreateEmployee(graphene.Mutation):
-    class Arguments:
-        first_name = graphene.String(required=True)
-        middle_name = graphene.String(required=False)
-        last_name = graphene.String(required=True)
-
-    employee = graphene.Field(EmployeeType)
-
-    @classmethod
-    def mutate(cls, root, info, first_name, middle_name, last_name):
-        employee = Employee(
-            first_name=first_name,
-            middle_name=middle_name,
-            last_name=last_name
-        )
-        employee.save()
-        return CreateEmployee(employee=employee)
-
-
-class UpdateEmployee(graphene.Mutation):
-    class Arguments:
-        first_name = graphene.String(required=True)
-        last_name = graphene.String(required=True)
-
-    employee = graphene.Field(EmployeeType)
-
-    @classmethod
-    def mutate(cls, root, info, first_name, last_name):
-        employee = Employee.objects.get(first_name=first_name)
-        employee.last_name = last_name
-        employee.save()
-        return UpdateEmployee(employee=employee)
-
-
-class DeleteEmployee(graphene.Mutation):
-    class Arguments:
-        first_name = graphene.String(required=True)
-
-    employee = graphene.Field(EmployeeType)
-
-    @classmethod
-    def mutate(cls, root, info, first_name):
-        employee = Employee.objects.get(first_name=first_name)
-        employee.delete()
-        return DeleteEmployee(employee=employee)
-
-
-class EmployeeMutations(graphene.ObjectType):
-    create_employee = CreateEmployee.Field()
-    update_employee = UpdateEmployee.Field()
-    delete_employee = DeleteEmployee.Field()
-
-
-class Mutation(AuthMutation, EmployeeMutations):
+class Mutation(
+    users_schema.Mutation,
+    employee_schema.Mutation
+):
     pass
 
 

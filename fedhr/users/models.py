@@ -57,11 +57,7 @@ class BaseUser(BaseModel, AbstractBaseUser, PermissionsMixin):
         max_length=255,
         unique=True,
     )
-    # username = models.EmailField(
-    #     verbose_name='Username',
-    #     max_length=255,
-    #     unique=True,
-    # )
+
     username = models.CharField(
         verbose_name='Username',
         max_length=150,
