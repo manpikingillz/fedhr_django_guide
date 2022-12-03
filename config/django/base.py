@@ -46,7 +46,8 @@ LOCAL_APPS = [
     'fedhr.hiring.apps.HiringConfig',
     'fedhr.timeoff.apps.TimeoffConfig',
     'fedhr.scheduling.apps.SchedulingConfig',
-    'fedhr.payroll.apps.PayrollConfig'
+    'fedhr.payroll.apps.PayrollConfig',
+    'fedhr.timesheet.apps.TimesheetConfig',
 ]
 
 THIRD_PARTY_APPS = [
@@ -57,6 +58,9 @@ THIRD_PARTY_APPS = [
     'corsheaders',
     'django_extensions',
     'rest_framework_jwt',
+    'graphene_django',
+    'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
+    'graphql_auth',
 ]
 
 INSTALLED_APPS = [
@@ -191,7 +195,7 @@ JAZZMIN_SETTINGS = {
     # 'order_with_respect_to': ['employee', 'hiring'],
     'order_with_respect_to': [
         # order of apps
-        'employee', 'hiring', 'timeoff', 'scheduling', 'payroll',
+        'employee', 'hiring', 'timeoff', 'scheduling', 'payroll', 'timesheet',
 
         # order of employee models
         'employee.Employee',
@@ -225,6 +229,10 @@ JAZZMIN_SETTINGS = {
         # order of payroll models
         'payroll.EmployeePayroll',
         'payroll.PayrollPeriod',
+
+        # order of timesheet models
+        'timesheet.TimeRecord',
+        'timesheet.Task'
     ],
 
     'topmenu_links': [
@@ -237,6 +245,8 @@ JAZZMIN_SETTINGS = {
         {'app': 'hiring'},
         {'app': 'timeoff'},
         {'app': 'scheduling'},
+        {'app': 'payroll'},
+        {'app': 'timesheet'},
     ],
     'search_model': ['employee.Employee', ],
     'welcome_sign': 'Welcome to FedHR',
@@ -273,6 +283,32 @@ JAZZMIN_UI_TWEAKS = {
         'danger': 'btn-danger',
         'success': 'btn-success'
     }
+}
+
+GRAPHENE = {
+    "SCHEMA": "fedhr.graphql_schema.schema",
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ]
+}
+
+AUTHENTICATION_BACKENDS = [
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    "graphql_auth.backends.GraphQLAuthBackend",
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+GRAPHQL_JWT = {
+    "JWT_VERIFY_EXPIRATION": True,
+
+    # optional
+    "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+
+    "JWT_ALLOW_ANY_CLASSES": [
+        "graphql_auth.mutations.Register",
+        "graphql_auth.mutations.VerifyAccount",
+        "graphql_auth.mutations.ObtainJSONWebToken"
+    ],
 }
 
 from config.settings.cors import *  # noqa
