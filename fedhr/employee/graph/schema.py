@@ -4,6 +4,17 @@ from fedhr.employee.graph.mutations import EmployeeMutations
 from fedhr.employee.graph.queries import EmployeeQueries
 
 
+# mutations
+
+# filters
+
+# resolvers
+
+# sorters
+
+# types
+
+
 class Query(EmployeeQueries):
     pass
 

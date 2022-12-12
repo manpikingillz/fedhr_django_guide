@@ -1,76 +1,73 @@
 import graphene
 from graphene_django.rest_framework.mutation import SerializerMutation
 
-from rest_framework.serializers import Serializer, ModelSerializer
+from rest_framework import serializers
 
-from fedhr.employee.models import Employee
+from fedhr.employee.models import Employee, Country
 from fedhr.employee.graph.types import EmployeeType
 
 
-class EmployeeSerializer(ModelSerializer):
+# EMPLOYEE CREATE  ###################################################
+class EmployeeInput(graphene.InputObjectType):
+    first_name = graphene.String(required=True)
+    last_name = graphene.String(required=True)
+    country_id = graphene.Int()
+
+
+class EmployeeCreate(graphene.Mutation):
+    class Arguments:
+        employee_data = EmployeeInput(required=True)
+
+    employee = graphene.Field(EmployeeType)
+
+    def mutate(self, info, employee_data=None, **kwargs):
+        created_employee = Employee.objects.create(
+            first_name=employee_data.first_name,
+            last_name=employee_data.last_name,
+            country_id=employee_data.country_id
+        )
+
+        return EmployeeCreate(employee=created_employee)
+
+
+# EMPLOYEE UPDATE  ##################################################
+class EmployeeSerializer(serializers.ModelSerializer):
+    gender = serializers.CharField(required=False)
+    marital_status = serializers.CharField(required=False)
+    country = serializers.RelatedField(required=False, queryset=Country.objects.all())
+
     class Meta:
         model = Employee
-        fields = ('first_name', 'last_name',)
+        fields = '__all__'
 
 
-class EmployeeMutation(SerializerMutation):
+class EmployeeUpdate(SerializerMutation):
     class Meta:
         serializer_class = EmployeeSerializer
-        # model_operations = ('create',)
-        # only_fields = ('first_name', 'last_name', 'middle_name')
-        # lookupfield = 'id'
+        model_operations = ('update', )
+        lookup_field = 'id'
 
 
-# class CreateEmployee(graphene.Mutation):
-#     class Arguments:
-#         first_name = graphene.String(required=True)
-#         middle_name = graphene.String(required=False)
-#         last_name = graphene.String(required=True)
-
-#     employee = graphene.Field(EmployeeType)
-
-#     @classmethod
-#     def mutate(cls, root, info, first_name, middle_name, last_name):
-#         employee = Employee(
-#             first_name=first_name,
-#             middle_name=middle_name,
-#             last_name=last_name
-#         )
-#         employee.save()
-#         return CreateEmployee(employee=employee)
-
-
-# class UpdateEmployee(graphene.Mutation):
-#     class Arguments:
-#         first_name = graphene.String(required=True)
-#         last_name = graphene.String(required=True)
-
-#     employee = graphene.Field(EmployeeType)
-
-#     @classmethod
-#     def mutate(cls, root, info, first_name, last_name):
-#         employee = Employee.objects.get(first_name=first_name)
-#         employee.last_name = last_name
-#         employee.save()
-#         return UpdateEmployee(employee=employee)
-
-
-class DeleteEmployee(graphene.Mutation):
+# EMPLOYEE DELETE  ###################################################
+class EmployeeDelete(graphene.Mutation):
     class Arguments:
-        # first_name = graphene.String(required=True)
         id = graphene.ID()
 
     employee = graphene.Field(EmployeeType)
 
     @classmethod
-    def mutate(cls, root, info, **kwargs):
+    def mutate(root, info, **kwargs):
         employee = Employee.objects.get(id=kwargs.get('id'))
-        employee.delete()
-        return cls(employee=employee)
+        try:
+            employee.delete()
+            # message = 'Deleted Successafully'
+        except Exception:
+            pass
+
+        return EmployeeDelete(employee=employee)
 
 
 class EmployeeMutations(graphene.ObjectType):
-    # create_employee = CreateEmployee.Field()
-    # update_employee = UpdateEmployee.Field()
-    delete_employee = DeleteEmployee.Field()
-    employee_mutation = EmployeeMutation.Field()
+    employee_delete = EmployeeDelete.Field()
+    employee_update = EmployeeUpdate.Field()
+    employeeCreate = EmployeeCreate.Field()
