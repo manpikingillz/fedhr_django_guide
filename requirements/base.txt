@@ -20,3 +20,8 @@ boto3==1.23.0
 attrs==21.4.0
 
 django-jazzmin
+graphql-core==3.1.0
+graphql-relay==2.0.1
+graphene-django==3.0.0
+django-graphql-jwt==0.3.0
+django-graphql-auth==0.3.16
