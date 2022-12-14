@@ -6,7 +6,8 @@ from rest_framework import serializers
 from fedhr.employee.models import Employee
 from fedhr.employee.graph.types import EmployeeType
 from fedhr.common.utils import get_object
-from graphql.error import GraphQLError
+
+from fedhr.common.services import generic_model_update
 
 
 # EMPLOYEE CREATE  ###################################################
@@ -57,24 +58,30 @@ class EmployeeUpdateInput(graphene.InputObjectType):
 
 
 class EmployeeUpdate(graphene.Mutation):
+    employee = graphene.Field(EmployeeType)
+    errors = graphene.String()
+
     class Arguments:
         employee_data = EmployeeUpdateInput(required=True)
 
     class Meta:
         description = "Updates an employee"
 
-    employee = graphene.Field(EmployeeType)
-
     def mutate(self, info, employee_data=None, **kwargs):
-        instance = get_object(Employee, id=employee_data.get('id'))
+        try:
+            instance = get_object(Employee, id=employee_data.get('id'))
 
-        serializer = EmployeeSerializer(
-            instance=instance,
-            data=employee_data,
-            partial=True)
+            serializer = EmployeeSerializer(
+                data=employee_data,
+            )
+            serializer.is_valid(raise_exception=True)
 
-        serializer.is_valid(raise_exception=True)
-        saved_instance = serializer.save()
+            saved_instance = generic_model_update(
+                instance=instance,
+                data=serializer.validated_data)
+
+        except ValidationError as e:
+            return EmployeeUpdate(errors=e)
         return EmployeeUpdate(employee=saved_instance)
 
 
