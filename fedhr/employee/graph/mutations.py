@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 import graphene
 
 from rest_framework import serializers
@@ -5,6 +6,7 @@ from rest_framework import serializers
 from fedhr.employee.models import Employee
 from fedhr.employee.graph.types import EmployeeType
 from fedhr.common.utils import get_object
+from graphql.error import GraphQLError
 
 
 # EMPLOYEE CREATE  ###################################################
@@ -15,19 +17,26 @@ class EmployeeInput(graphene.InputObjectType):
 
 
 class EmployeeCreate(graphene.Mutation):
+    employee = graphene.Field(EmployeeType)
+    errors = graphene.String()
+
     class Arguments:
         employee_data = EmployeeInput(required=True)
 
-    employee = graphene.Field(EmployeeType)
-
     def mutate(self, info, employee_data=None, **kwargs):
-        created_employee = Employee.objects.create(
-            first_name=employee_data.first_name,
-            last_name=employee_data.last_name,
-            country_id=employee_data.country_id
-        )
+        try:
+            employee_for_create = Employee(
+                first_name=employee_data.first_name,
+                last_name=employee_data.last_name,
+                country_id=employee_data.country_id
+            )
 
-        return EmployeeCreate(employee=created_employee)
+            employee_for_create.full_clean()
+            employee_for_create.save()
+        except ValidationError as e:
+            return EmployeeCreate(errors=e)
+
+        return EmployeeCreate(employee=employee_for_create)
 
 
 # EMPLOYEE UPDATE  ##################################################
@@ -65,8 +74,8 @@ class EmployeeUpdate(graphene.Mutation):
             partial=True)
 
         serializer.is_valid(raise_exception=True)
-        saved = serializer.save()
-        return EmployeeUpdate(employee=saved)
+        saved_instance = serializer.save()
+        return EmployeeUpdate(employee=saved_instance)
 
 
 # EMPLOYEE DELETE  ###################################################

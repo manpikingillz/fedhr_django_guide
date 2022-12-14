@@ -14,6 +14,15 @@ from fedhr.employee.graph.queries import EmployeeQueries
 
 # types
 
+# TODO: Data Validation and Error handling
+# TODO: Handling m2m and Reverse relationships
+# TODO: Caching
+# TODO: Authorization / Permissions
+# TODO: Authentication.
+# TODO: Filters
+# TODO: Pagination
+
+
 
 class Query(EmployeeQueries):
     pass
