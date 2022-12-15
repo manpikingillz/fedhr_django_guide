@@ -1,20 +1,24 @@
-from django.core.exceptions import ValidationError
 import graphene
 
+from django.core.exceptions import ValidationError
 from rest_framework import serializers
 
 from fedhr.employee.models import Employee
 from fedhr.employee.graph.types import EmployeeType
 from fedhr.common.utils import get_object
 
-from fedhr.common.services import generic_model_update
-
 
 # EMPLOYEE CREATE  ###################################################
-class EmployeeInput(graphene.InputObjectType):
+class EmployeeCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = '__all__'
+
+
+class EmployeeCreateInput(graphene.InputObjectType):
     first_name = graphene.String(required=True)
     last_name = graphene.String(required=True)
-    country_id = graphene.Int()
+    country = graphene.Int()
 
 
 class EmployeeCreate(graphene.Mutation):
@@ -22,26 +26,18 @@ class EmployeeCreate(graphene.Mutation):
     errors = graphene.String()
 
     class Arguments:
-        employee_data = EmployeeInput(required=True)
+        employee_data = EmployeeCreateInput(required=True)
 
     def mutate(self, info, employee_data=None, **kwargs):
-        try:
-            employee_for_create = Employee(
-                first_name=employee_data.first_name,
-                last_name=employee_data.last_name,
-                country_id=employee_data.country_id
-            )
+        serializer = EmployeeCreateSerializer(data=employee_data)
+        serializer.is_valid(raise_exception=True)
 
-            employee_for_create.full_clean()
-            employee_for_create.save()
-        except ValidationError as e:
-            return EmployeeCreate(errors=e)
-
-        return EmployeeCreate(employee=employee_for_create)
+        created_employee = serializer.save()
+        return EmployeeCreate(employee=created_employee)
 
 
 # EMPLOYEE UPDATE  ##################################################
-class EmployeeSerializer(serializers.ModelSerializer):
+class EmployeeUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = '__all__'
@@ -71,18 +67,22 @@ class EmployeeUpdate(graphene.Mutation):
         try:
             instance = get_object(Employee, id=employee_data.get('id'))
 
-            serializer = EmployeeSerializer(
+            serializer = EmployeeUpdateSerializer(
+                instance=instance,
                 data=employee_data,
             )
             serializer.is_valid(raise_exception=True)
 
-            saved_instance = generic_model_update(
-                instance=instance,
-                data=serializer.validated_data)
+            updated_instance = serializer.save()
+            # TODO: Need to evaluate better approach since we can also do this
+            # if we like. in which we wouldn't pass instance to serializer.
+            # saved_instance = generic_model_update(
+            #     instance=instance,
+            #     data=serializer.validated_data)
 
         except ValidationError as e:
             return EmployeeUpdate(errors=e)
-        return EmployeeUpdate(employee=saved_instance)
+        return EmployeeUpdate(employee=updated_instance)
 
 
 # EMPLOYEE DELETE  ###################################################
