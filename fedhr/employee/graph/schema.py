@@ -23,7 +23,6 @@ from fedhr.employee.graph.queries import EmployeeQueries
 # TODO: Pagination
 
 
-
 class Query(EmployeeQueries):
     pass
 
