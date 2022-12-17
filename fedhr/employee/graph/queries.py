@@ -1,20 +1,21 @@
 import graphene
 
+from graphene_django.filter import DjangoFilterConnectionField
+
 from fedhr.employee.models import Employee
 from fedhr.employee.graph.types import EmployeeType
+from fedhr.employee.graph.filters import EmployeeFilter
 
 
 class EmployeeQueries(graphene.ObjectType):
-    employees = graphene.List(EmployeeType)
-    employee_by_first_name = graphene.Field(
-        EmployeeType, first_name=graphene.String())
 
-    # Resolvers
-    def resolve_employees(self, info):
-        return Employee.objects.all()
+    employees = DjangoFilterConnectionField(
+        EmployeeType, filterset_class=EmployeeFilter)
+    employee_detail = graphene.relay.Node.Field(
+        EmployeeType)
 
-    def resolve_employee_by_first_name(self, info, first_name):
-        try:
-            return Employee.objects.get(first_name=first_name)
-        except Employee.DoesNotExist:
-            return None
+    def resolve_employees(self, info, **kwargs):
+        filters = kwargs or {}
+        queryset = Employee.objects.all()
+        # We could just pass kwargs only and we're still good.
+        return EmployeeFilter(filters, queryset=queryset).qs
