@@ -2,14 +2,18 @@ import graphene
 from graphene_django.types import DjangoObjectType
 
 from fedhr.employee.models import Employee, Country
+from fedhr.employee.graph.filters import EmployeeFilter
 
 
 class EmployeeType(DjangoObjectType):
     class Meta:
         model = Employee
-        filter_fields = ['first_name', 'last_name']
         interfaces = (graphene.relay.Node,)
         fields = '__all__'
+        # Deciding not to put the filterset_class here because I may use the 
+        # EmployeeType ObjectType in places where the filter is not required, e.g in
+        # getting an employee details.
+        # filterset_class = EmployeeFilter
 
 
 class CountryType(DjangoObjectType):
