@@ -3,6 +3,7 @@ from django.db import models
 
 from fedhr.common.models import BaseModel
 from fedhr.setup.models import Country
+from fedhr.files.models import File
 
 
 class Employee(BaseModel):
@@ -24,7 +25,12 @@ class Employee(BaseModel):
     date_of_birth = models.DateTimeField(null=True, blank=True)
     marital_status = models.CharField(choices=MaritalStatus.choices, null=True, blank=True, max_length=50)
     nationality = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, blank=True, related_name='employees')
-
+    avatar = models.ForeignKey(
+        File,
+        related_name='employee_avatars',
+        on_delete=models.SET_NULL,
+        null=True, blank=True
+    )
     # Job
     hire_date = models.DateTimeField(null=True, blank=True)
 

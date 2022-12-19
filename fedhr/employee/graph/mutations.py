@@ -70,6 +70,7 @@ class EmployeeUpdate(graphene.Mutation):
             serializer = EmployeeUpdateSerializer(
                 instance=instance,
                 data=employee_data,
+                partial=True
             )
             serializer.is_valid(raise_exception=True)
 

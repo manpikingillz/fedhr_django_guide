@@ -17,6 +17,7 @@ class EmployeeAdmin(admin.ModelAdmin):
                     'date_of_birth',
                     'marital_status',
                     'nationality',
+                    'avatar'
                 )
             }
         ),
