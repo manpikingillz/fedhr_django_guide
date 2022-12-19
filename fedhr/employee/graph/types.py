@@ -3,6 +3,7 @@ from graphene_django.types import DjangoObjectType
 
 from fedhr.employee.models import Employee, Country
 from fedhr.employee.graph.filters import EmployeeFilter
+from fedhr.files.models import File
 
 
 class EmployeeType(DjangoObjectType):
@@ -20,3 +21,10 @@ class CountryType(DjangoObjectType):
     class Meta:
         model = Country
         fields = ('id', 'country_name')
+
+
+class FileType(DjangoObjectType):
+    class Meta:
+        model = File
+        interfaces = (graphene.relay.Node,)
+        fields = '__all__'
