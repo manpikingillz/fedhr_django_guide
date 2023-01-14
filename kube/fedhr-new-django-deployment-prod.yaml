@@ -5,7 +5,7 @@ kind: Deployment
 
 metadata:
   name:  fedhr-new-django-deployment
-  namespace: fedhr-new
+  namespace: fedhrnew-custom
   labels:
     app:  fedhr-new-django-deployment-label
 
@@ -30,8 +30,8 @@ spec:
     spec:
       containers:
       - name:  fed-be-containr
-        image:  728474852849.dkr.ecr.us-east-1.amazonaws.com/fedhr-new-django-ecr-repo:latest
-        imagePullPolicy: IfNotPresent #Always
+        image:  728474852849.dkr.ecr.us-east-1.amazonaws.com/fedhr-new-django-ecr-repo:dev-latest
+        imagePullPolicy: Always #IfNotPresent
         command: ['python','manage.py', 'runserver', '0.0.0.0:8000']
         # resources:
         #   requests:
@@ -43,13 +43,14 @@ spec:
 
         env:
         - name: DATABASE_URL
-          value: postgres://postgres:postgres@fedhrdb.csrodjjwcarv.us-east-1.rds.amazonaws.com:5432/fedhrdb
+          value: postgres://adminuser:rA8aXxdK@fedspar-fedhrdb-dev.csrodjjwcarv.us-east-1.rds.amazonaws.com:5432/fedhrdb
+          #postgres://gilbert:rA8aXxdK@fedhrnew-db-test.csrodjjwcarv.us-east-1.rds.amazonaws.com:5432/fedhrnewdb
 
         ports:
         - containerPort:  8000
           name:  fed-be-containr
 
-      restartPolicy: Always
+      # restartPolicy: Always
 
 ---
 # FEDHR-NEW DJANGO SERVICE PROD ==============================================
@@ -57,7 +58,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: fedhr-new-django-service
-  namespace: fedhr-new
+  namespace: fedhrnew-custom
 spec:
   selector:
     app: fedhr-new-django-deployment-label
