@@ -1,6 +1,6 @@
 import graphene
 
-from fedhr.users.graph.mutations import AuthMutation
+from fedhr.users.graph.user_mutations import AuthMutation
 from fedhr.users.graph.queries import UserQueries
 
 
