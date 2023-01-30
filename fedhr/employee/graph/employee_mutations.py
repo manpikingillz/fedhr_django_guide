@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from rest_framework import serializers
 
 from fedhr.employee.models import Employee
-from fedhr.employee.graph.types import EmployeeType
+from fedhr.employee.graph.employee_types import EmployeeType
 from fedhr.common.utils import get_object
 
 

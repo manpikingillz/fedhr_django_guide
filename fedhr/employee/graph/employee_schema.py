@@ -1,7 +1,7 @@
 import graphene
 
 from fedhr.employee.graph.employee_mutations import EmployeeMutations
-from fedhr.employee.graph.queries import EmployeeQueries
+from fedhr.employee.graph.employee_queries import EmployeeQueries
 
 
 # mutations
