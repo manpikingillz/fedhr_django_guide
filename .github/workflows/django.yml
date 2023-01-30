@@ -6,7 +6,7 @@ on:
 
 jobs:
   build_and_deploy:
-    name: Checkout Code and Setup Python
+    name: Build and Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -52,7 +52,8 @@ jobs:
     - name: Update kube config
       run: aws eks update-kubeconfig --name fedhrnew --region us-east-1
 
-    - name: Run Kubernetes YAML files
+    - name: Apply Kubernetes YAML files
       run: |
+        kubectl delete deployment fedhr-new-django-deployment
         kubectl apply -f kube/fedhr-new-django-deployment-prod.yaml
         kubectl apply -f kube/fedhr-new-ingress.yaml
