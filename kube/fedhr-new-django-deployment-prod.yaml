@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name:  fed-be-containr
-        image:  728474852849.dkr.ecr.us-east-1.amazonaws.com/fedhr-new-django-ecr-repo:dev-latest
+        image:  728474852849.dkr.ecr.us-east-1.amazonaws.com/fedhr-new-django-ecr-repo:latest
         imagePullPolicy: Always #IfNotPresent
         command: ['python','manage.py', 'runserver', '0.0.0.0:8000']
         # resources:
