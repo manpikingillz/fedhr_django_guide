@@ -9,8 +9,8 @@ jobs:
       run: docker-compose build
     # - name: Type check
     #   run: docker-compose run django mypy --config mypy.ini fedhr/
-    - name: Run migrations
-      run: docker-compose run django python manage.py migrate
+    # - name: Run migrations
+    #   run: docker-compose run django python manage.py migrate
     - name: Run tests
       run: docker-compose run django py.test
 
@@ -41,8 +41,8 @@ jobs:
     #   run: |
     #     mypy --version
     #     mypy --config mypy.ini fedhr/
-    - name: Run migrations
-      run: python manage.py migrate
+    # - name: Run migrations
+    #   run: python manage.py migrate
     - name: Run tests
       run: py.test
 
