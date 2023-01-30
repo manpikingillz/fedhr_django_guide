@@ -1,7 +1,7 @@
 import graphene
 
-from fedhr.users.graph.schema import schema as users_schema
-from fedhr.employee.graph.schema import schema as employee_schema
+from fedhr.users.graph.users_schema import schema as users_schema
+from fedhr.employee.graph.employee_schema import schema as employee_schema
 
 
 class Query(

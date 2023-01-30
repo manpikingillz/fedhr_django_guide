@@ -2,7 +2,11 @@
 # Creating image based on official python3 image
 FROM python:3.10.8-buster
 
-# Fix python printing
+# prevents Python from copying pyc files to the container.
+ENV PYTHONDONTWRITEBYTECODE 1
+
+# ensures that Python output is logged to the terminal,
+# making it possible to monitor Django logs in realtime.
 ENV PYTHONUNBUFFERED 1
 
 # Installing all python dependencies

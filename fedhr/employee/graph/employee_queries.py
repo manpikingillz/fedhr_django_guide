@@ -4,8 +4,8 @@ from django.core.cache import cache
 from graphene_django.filter import DjangoFilterConnectionField
 
 from fedhr.employee.models import Employee
-from fedhr.employee.graph.types import EmployeeType
-from fedhr.employee.graph.filters import EmployeeFilter
+from fedhr.employee.graph.employee_types import EmployeeType
+from fedhr.employee.graph.employee_filters import EmployeeFilter
 
 
 class EmployeeQueries(graphene.ObjectType):

@@ -2,7 +2,7 @@ import graphene
 from graphene_django.types import DjangoObjectType
 
 from fedhr.employee.models import Employee, Country
-from fedhr.employee.graph.filters import EmployeeFilter
+from fedhr.employee.graph.employee_filters import EmployeeFilter
 from fedhr.files.models import File
 
 
