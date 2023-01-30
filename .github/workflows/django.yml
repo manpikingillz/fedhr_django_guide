@@ -49,7 +49,7 @@ jobs:
         IMAGE_TAG: latest #${{ github.sha }}
       run: |
         git checkout 49-create-deployment-pipeline
-        docker build . -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f docker/production.Dockerfile
+        docker build . -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f docker/production.Dockerfile --no-cache
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
     - name: Update kube config
