@@ -85,6 +85,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         'gender',
         'hire_date',
         'email',
+        'middle_name'
     )
     list_filter = ('first_name', 'last_name', 'removed')
 
