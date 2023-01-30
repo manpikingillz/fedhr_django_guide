@@ -40,12 +40,15 @@ class BaseUserAdmin(admin.ModelAdmin):
 
     readonly_fields = ("created_at", "updated_at", )
 
-    def save_model(self, request, obj, form, change):
-        if change:
-            return super().save_model(request, obj, form, change)
+    # Commented out so that we can use the built in methods.
+    # Also, it was not straightfoward how to save groups
+    # and user_permissions. Editing was fine though.
 
-        try:
-            print('cleaned_data', form.cleaned_data)
-            user_create(**form.cleaned_data)
-        except ValidationError as exc:
-            self.message_user(request, str(exc), messages.ERROR)
+    # def save_model(self, request, obj, form, change):
+    #     if change:
+    #         return super().save_model(request, obj, form, change)
+
+    #     try:
+    #         user_create(**form.cleaned_data)
+    #     except ValidationError as exc:
+    #         self.message_user(request, str(exc), messages.ERROR)

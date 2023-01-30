@@ -17,15 +17,21 @@ from fedhr.common.models import BaseModel
 
 
 class BaseUserManager(BUM):
-    def create_user(self, username, email, is_active=True, is_admin=False, password=None):
+    def create_user(self, first_name, last_name, username, email,
+                    is_superuser, is_active=True, is_admin=False,
+                    password=None, **extra_fields):
         if not email:
             raise ValueError('Users must have an email address')
 
         user = self.model(
+            first_name=first_name,
+            last_name=last_name,
             username=username,
             email=self.normalize_email(email.lower()),
+            is_superuser=is_superuser,
             is_active=is_active,
-            is_admin=is_admin
+            is_admin=is_admin,
+            **extra_fields
         )
 
         if password is not None:

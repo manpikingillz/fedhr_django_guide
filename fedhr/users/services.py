@@ -9,19 +9,26 @@ from fedhr.users.models import BaseUser
 
 def user_create(
     *,
+    first_name: str,
+    last_name: str,
     username: str,
     email: str,
+    is_superuser: bool,
     is_active: bool = True,
     is_admin: bool = False,
-    password: Optional[str] = None
+    password: Optional[str] = None,
+    **extra_fields
 ) -> BaseUser:
-    print('username: ', username)
     user = BaseUser.objects.create_user(
+        first_name=first_name,
+        last_name=last_name,
         username=username,
         email=email,
+        is_superuser=is_superuser,
         is_active=is_active,
         is_admin=is_admin,
-        password=password
+        password=password,
+        **extra_fields
     )
 
     return user
