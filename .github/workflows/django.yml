@@ -48,6 +48,7 @@ jobs:
         REPOSITORY: fedhr-new-django-ecr-repo
         IMAGE_TAG: latest #${{ github.sha }}
       run: |
+        git checkout 49-create-deployment-pipeline
         docker build . -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f docker/production.Dockerfile
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
