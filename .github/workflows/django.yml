@@ -54,6 +54,5 @@ jobs:
 
     - name: Apply Kubernetes YAML files
       run: |
-        kubectl delete deployment fedhr-new-django-deployment
         kubectl apply -f kube/fedhr-new-django-deployment-prod.yaml
         kubectl apply -f kube/fedhr-new-ingress.yaml
