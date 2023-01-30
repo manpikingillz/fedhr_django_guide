@@ -9,8 +9,6 @@ from fedhr.users.models import BaseUser
 
 def user_create(
     *,
-    first_name: str,
-    last_name: str,
     username: str,
     email: str,
     is_superuser: bool,
@@ -20,8 +18,6 @@ def user_create(
     **extra_fields
 ) -> BaseUser:
     user = BaseUser.objects.create_user(
-        first_name=first_name,
-        last_name=last_name,
         username=username,
         email=email,
         is_superuser=is_superuser,
