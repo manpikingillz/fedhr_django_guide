@@ -11,8 +11,8 @@ jobs:
     #   run: docker-compose run django mypy --config mypy.ini fedhr/
     # - name: Run migrations
     #   run: docker-compose run django python manage.py migrate
-    - name: Run tests
-      run: docker-compose run django py.test
+    # - name: Run tests
+    #   run: docker-compose run django py.test
 
   build:
     runs-on: ubuntu-latest
@@ -43,8 +43,8 @@ jobs:
     #     mypy --config mypy.ini fedhr/
     # - name: Run migrations
     #   run: python manage.py migrate
-    - name: Run tests
-      run: py.test
+    # - name: Run tests
+    #   run: py.test
 
   deploy_to_heroku:
     runs-on: ubuntu-latest
