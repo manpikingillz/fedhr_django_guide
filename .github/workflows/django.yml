@@ -12,8 +12,8 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
-      with:
-        ref: 49-create-deployment-pipeline
+      # with:
+      #   ref: 49-create-deployment-pipeline
 
     - name: Setup Python 3.10.8
       uses: actions/setup-python@v4
@@ -48,7 +48,6 @@ jobs:
         REPOSITORY: fedhr-new-django-ecr-repo
         IMAGE_TAG: latest #${{ github.sha }}
       run: |
-        git checkout 49-create-deployment-pipeline
         docker build . -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f docker/production.Dockerfile --no-cache
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
