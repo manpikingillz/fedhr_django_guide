@@ -1,12 +1,14 @@
 name: FedHR
+
 on:
   push:
-    branches:
-      - '**'
+    branches: '**'
+
 jobs:
   build_and_deploy:
     name: Checkout Code and Setup Python
     runs-on: ubuntu-latest
+  
     steps:
     - name: Checkout Code
     - uses: actions/checkout@v3
