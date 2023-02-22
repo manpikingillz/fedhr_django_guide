@@ -7,7 +7,7 @@ from fedhr.users.services import user_create
 
 @admin.register(BaseUser)
 class BaseUserAdmin(admin.ModelAdmin):
-    list_display = ('email', 'is_admin', 'is_superuser', 'is_active', 'created_at', 'updated_at')
+    list_display = ('email', 'username', 'is_admin', 'is_superuser', 'is_active', 'created_at', 'updated_at',)
 
     search_fields = ('email',)
 
@@ -40,11 +40,15 @@ class BaseUserAdmin(admin.ModelAdmin):
 
     readonly_fields = ("created_at", "updated_at", )
 
-    def save_model(self, request, obj, form, change):
-        if change:
-            return super().save_model(request, obj, form, change)
+    # Commented out so that we can use the built in methods.
+    # Also, it was not straightfoward how to save groups
+    # and user_permissions. Editing was fine though.
 
-        try:
-            user_create(**form.cleaned_data)
-        except ValidationError as exc:
-            self.message_user(request, str(exc), messages.ERROR)
+    # def save_model(self, request, obj, form, change):
+    #     if change:
+    #         return super().save_model(request, obj, form, change)
+
+    #     try:
+    #         user_create(**form.cleaned_data)
+    #     except ValidationError as exc:
+    #         self.message_user(request, str(exc), messages.ERROR)
