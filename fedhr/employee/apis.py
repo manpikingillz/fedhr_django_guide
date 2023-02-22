@@ -11,11 +11,11 @@ from fedhr.employee.models import Employee
 
 class EmployeeCreateApi(ApiAuthMixin, APIView):
     class InputSerializer(serializers.Serializer):
-            first_name = serializers.CharField(max_length=255, required=True)
-            last_name = serializers.CharField(max_length=255, required=True)
-            middle_name = serializers.CharField(max_length=255, required=False)
-            gender =  serializers.ChoiceField(choices=Employee.Gender.choices, required=True)
-            email = serializers.EmailField(max_length=255, required=True)
+        first_name = serializers.CharField(max_length=255, required=True)
+        last_name = serializers.CharField(max_length=255, required=True)
+        middle_name = serializers.CharField(max_length=255, required=False)
+        gender = serializers.ChoiceField(choices=Employee.Gender.choices, required=True)
+        email = serializers.EmailField(max_length=255, required=True)
 
     def post(self, request):
         serializer = self.InputSerializer(data=request.data)

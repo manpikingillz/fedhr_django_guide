@@ -6,6 +6,7 @@ from fedhr.common.services import model_update, model_delete
 EMPLOYEE_INSTANCE_IS_NONE = f'You attempted updating a {Employee.__name__} that does not exist!'
 EMPLOYEE_INSTANCE_IS_NONE_DELETE = f'You attempted deleting a {Employee.__name__} that does not exist!'
 
+
 def employee_create(
     *,
     first_name,
