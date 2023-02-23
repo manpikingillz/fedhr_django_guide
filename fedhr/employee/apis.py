@@ -7,6 +7,7 @@ from fedhr.common.utils import get_object
 from fedhr.employee.services import employee_create, employee_update, employee_delete
 from fedhr.employee.selectors import employee_detail, employee_list
 from fedhr.employee.models import Employee
+from drf_yasg.utils import swagger_auto_schema
 
 
 class EmployeeCreateApi(ApiAuthMixin, APIView):
@@ -17,6 +18,15 @@ class EmployeeCreateApi(ApiAuthMixin, APIView):
         gender = serializers.ChoiceField(choices=Employee.Gender.choices, required=True)
         email = serializers.EmailField(max_length=255, required=True)
 
+    @swagger_auto_schema(
+        description="Method to add a new Employee.",
+        request_body=InputSerializer,
+        responses={200: InputSerializer(many=False),
+                   401: 'Unauthorized',
+                   201: 'Employee Added'},
+        tags=['Create / List Employees'],
+        operation_description="Method to post a new Employee",
+    )
     def post(self, request):
         serializer = self.InputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -33,15 +43,21 @@ class EmployeeListApi(ApiAuthMixin, APIView):
         last_name = serializers.CharField(max_length=255, required=True)
         middle_name = serializers.CharField(max_length=255, required=False)
         full_name = serializers.CharField()
-        gender =  serializers.ChoiceField(choices=Employee.Gender.choices, required=True)
+        gender = serializers.ChoiceField(choices=Employee.Gender.choices, required=True)
         email = serializers.EmailField(max_length=255, required=True)
-
 
     class FilterSerializer(serializers.Serializer):
         first_name = serializers.CharField(max_length=255, required=False)
         last_name = serializers.CharField(max_length=255, required=False)
         email = serializers.EmailField(max_length=255, required=False)
 
+    @swagger_auto_schema(
+        responses={200: OutputSerializer(many=True),
+                   401: 'Unauthorized',
+                   404: 'No Employees found'},
+        tags=['Create / List Employees'],
+        operation_description="Method to fetch all the Employees",
+    )
     def get(self, request):
         # Make sure the filters are valid
         filters_serializer = self.FilterSerializer(data=request.query_params)

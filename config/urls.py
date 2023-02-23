@@ -31,7 +31,7 @@ schema_view = get_schema_view(
         default_version='v1',
         description="FedHR API description",
         terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@snippets.local"),
+        contact=openapi.Contact(email="gtwesigomwe1@gmail.com"),
         license=openapi.License(name="BSD License"),
    ),
    public=True,
