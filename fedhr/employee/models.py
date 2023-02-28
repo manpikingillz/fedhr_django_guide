@@ -10,6 +10,7 @@ class Employee(BaseModel):
     class Gender(models.TextChoices):
         FEMALE = 'FEMALE', 'Female'
         MALE = 'MALE', 'Male'
+
     class MaritalStatus(models.TextChoices):
         SINGLE = 'FEMALE', 'Female'
         MARRIED = 'MALE', 'Male'
@@ -21,7 +22,7 @@ class Employee(BaseModel):
     middle_name = models.CharField(max_length=255, null=True, blank=True)
     last_name = models.CharField(max_length=255)
     preferred_name = models.CharField(max_length=255, null=True, blank=True)
-    gender =  models.CharField(choices=Gender.choices, null=True, blank=True, max_length=6)
+    gender = models.CharField(choices=Gender.choices, null=True, blank=True, max_length=6)
     date_of_birth = models.DateTimeField(null=True, blank=True)
     marital_status = models.CharField(choices=MaritalStatus.choices, null=True, blank=True, max_length=50)
     nationality = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, blank=True, related_name='employees')

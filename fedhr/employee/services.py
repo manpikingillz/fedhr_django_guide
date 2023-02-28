@@ -11,16 +11,12 @@ def employee_create(
     *,
     first_name,
     last_name,
-    middle_name,
-    gender,
-    email
+    **extra_fields
 ) -> Employee:
     employee = Employee(
         first_name=first_name,
         last_name=last_name,
-        middle_name=middle_name,
-        gender=gender,
-        email=email
+        **extra_fields
     )
 
     employee.full_clean()
