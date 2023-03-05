@@ -160,7 +160,7 @@ class EmployeeDetailApi(ApiAuthMixin, APIView):
         last_name = serializers.CharField(max_length=255, required=True)
         middle_name = serializers.CharField(max_length=255, required=False)
         full_name = serializers.CharField()
-        gender =  serializers.ChoiceField(choices=Employee.Gender.choices, required=True)
+        gender = serializers.ChoiceField(choices=Employee.Gender.choices, required=True)
         email = serializers.EmailField(max_length=255, required=True)
 
     def get(self, request, employee_id):
@@ -176,7 +176,7 @@ class EmployeeUpdateApi(ApiAuthMixin, APIView):
         first_name = serializers.CharField(max_length=255, required=False)
         last_name = serializers.CharField(max_length=255, required=False)
         middle_name = serializers.CharField(max_length=255, required=False)
-        gender =  serializers.ChoiceField(choices=Employee.Gender.choices, required=False)
+        gender = serializers.ChoiceField(choices=Employee.Gender.choices, required=False)
         email = serializers.EmailField(max_length=255, required=False)
 
     def post(self, request, employee_id):

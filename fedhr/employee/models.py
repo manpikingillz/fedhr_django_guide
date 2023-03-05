@@ -12,8 +12,8 @@ class Employee(BaseModel):
         MALE = 'MALE', 'Male'
 
     class MaritalStatus(models.TextChoices):
-        SINGLE = 'FEMALE', 'Female'
-        MARRIED = 'MALE', 'Male'
+        SINGLE = 'SINGLE', 'Single'
+        MARRIED = 'MARRIED', 'Married'
         COMMON_LAW = 'COMMON_LAW', 'Common Law'
         DOMESTIC_PARTNERSHIP = 'DOMESTIC_PARTNERSHIP', 'Domestic Partnership'
 
