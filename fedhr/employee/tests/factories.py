@@ -15,8 +15,8 @@ class EmployeeFactory(factory.django.DjangoModelFactory):
     gender = factory.Faker('random_element', elements=('MALE', 'FEMALE'))
     date_of_birth = factory.Faker('date_of_birth', minimum_age=18, maximum_age=50)
     marital_status = factory.Faker('random_element', elements=('SINGLE', 'MARRIED', 'COMMON_LAW', 'DOMESTIC_PARTNERSHIP'))
-    nationality = factory.Faker('country')
-    avatar = factory.Faker('image_url', width=None, height=None)
+    # nationality = factory.Faker('country')
+    # avatar = factory.Faker('image_url', width=None, height=None)
 
     # Job Information
     hire_date = factory.Faker('date_between', start_date='-1y', end_date='today')
@@ -31,7 +31,7 @@ class EmployeeFactory(factory.django.DjangoModelFactory):
     street2 = factory.Faker('secondary_address')
     city = factory.Faker('city')
     province = factory.Faker('state')
-    country = factory.Faker('country')
+    # country = factory.Faker('country')
     zip_code = factory.Faker('postcode')
 
     # Social Information

@@ -30,6 +30,7 @@ services:
       - .:/app
     ports:
       - "8000:8000"
+    stdin_open: true
     # depends_on:
     #   - db
     #   - rabbitmq
