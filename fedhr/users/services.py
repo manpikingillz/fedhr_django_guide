@@ -11,7 +11,7 @@ def user_create(
     *,
     username: str,
     email: str,
-    is_superuser: bool,
+    is_superuser: bool = False,
     is_active: bool = True,
     is_admin: bool = False,
     password: Optional[str] = None,

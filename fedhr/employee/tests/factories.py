@@ -1,7 +1,13 @@
 import factory
-from fedhr.utils.tests import faker
-
+from fedhr.files.tests.factories import FileFactory
+from fedhr.setup.models import Country
 from fedhr.employee.models import Employee
+
+
+class CountryFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Country
+    country_name = factory.Faker('country')
 
 
 class EmployeeFactory(factory.django.DjangoModelFactory):
@@ -15,8 +21,8 @@ class EmployeeFactory(factory.django.DjangoModelFactory):
     gender = factory.Faker('random_element', elements=('MALE', 'FEMALE'))
     date_of_birth = factory.Faker('date_of_birth', minimum_age=18, maximum_age=50)
     marital_status = factory.Faker('random_element', elements=('SINGLE', 'MARRIED', 'COMMON_LAW', 'DOMESTIC_PARTNERSHIP'))
-    # nationality = factory.Faker('country')
-    # avatar = factory.Faker('image_url', width=None, height=None)
+    nationality = factory.SubFactory(CountryFactory)
+    avatar = factory.SubFactory(FileFactory)
 
     # Job Information
     hire_date = factory.Faker('date_between', start_date='-1y', end_date='today')
@@ -26,12 +32,18 @@ class EmployeeFactory(factory.django.DjangoModelFactory):
     national_identification_number = factory.Faker('ssn')
     tax_identification_number = factory.Faker('ssn')
 
+    email = factory.Faker('email')
+    home_email = factory.Faker('email')
+    mobile_number = factory.Faker('phone_number')
+    work_phone = factory.Faker('phone_number')
+    home_phone = factory.Faker('phone_number')
+
     # Address Information
     street1 = factory.Faker('street_address')
     street2 = factory.Faker('secondary_address')
     city = factory.Faker('city')
     province = factory.Faker('state')
-    # country = factory.Faker('country')
+    country = factory.SubFactory(CountryFactory)
     zip_code = factory.Faker('postcode')
 
     # Social Information
