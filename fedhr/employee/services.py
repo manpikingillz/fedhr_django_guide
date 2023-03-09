@@ -27,6 +27,8 @@ def employee_create(
 
 @transaction.atomic
 def employee_update(*, employee: Employee, data) -> Employee:
+    if not data:
+        raise ValidationError('No data updates were provided.')
     model_fields = list(vars(employee).keys())
     model_fields.remove('id')
 

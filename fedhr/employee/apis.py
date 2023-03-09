@@ -208,11 +208,47 @@ class EmployeeDetailApi(ApiAuthMixin, APIView):
 
 class EmployeeUpdateApi(ApiAuthMixin, APIView):
     class InputSerializer(serializers.Serializer):
+        # Basic Information
         first_name = serializers.CharField(max_length=255, required=False)
-        last_name = serializers.CharField(max_length=255, required=False)
         middle_name = serializers.CharField(max_length=255, required=False)
-        gender = serializers.ChoiceField(choices=Employee.Gender.choices, required=False)
+        last_name = serializers.CharField(max_length=255, required=False)
+        preferred_name = serializers.CharField(max_length=255, required=False)
+        gender = serializers.ChoiceField(
+            choices=Employee.Gender.choices, required=False)
+        date_of_birth = serializers.DateField(required=False)
+        marital_status = serializers.ChoiceField(
+            choices=Employee.MaritalStatus.choices, required=False)
+        nationality = serializers.PrimaryKeyRelatedField(
+            queryset=Country.objects.all(), required=False)
+
+        # Job
+        hire_date = serializers.DateField(required=False)
+
+        # Identification Information
+        social_security_number = serializers.CharField(max_length=50, required=False)
+        national_identification_number = serializers.CharField(max_length=50, required=False)
+        tax_identification_number = serializers.CharField(max_length=50, required=False)
+
+        # Contact Information
         email = serializers.EmailField(max_length=255, required=False)
+        home_email = serializers.EmailField(max_length=255, required=False)
+        mobile_number = serializers.CharField(max_length=50, required=False)
+        work_phone = serializers.CharField(max_length=50, required=False)
+        home_phone = serializers.CharField(max_length=50, required=False)
+
+        # Address Information.
+        street1 = serializers.CharField(max_length=255, required=False)
+        street2 = serializers.CharField(max_length=255, required=False)
+        city = serializers.CharField(max_length=255, required=False)
+        province = serializers.CharField(max_length=255, required=False)
+        country = serializers.CharField(max_length=255, required=False)
+        zip_code = serializers.CharField(max_length=255, required=False)
+
+        # Social Information.
+        linked_in = serializers.CharField(max_length=255, required=False)
+        facebook = serializers.CharField(max_length=255, required=False)
+        twitter = serializers.CharField(max_length=255, required=False)
+        instagram = serializers.CharField(max_length=255, required=False)
 
     def post(self, request, employee_id):
         serializer = self.InputSerializer(data=request.data)
