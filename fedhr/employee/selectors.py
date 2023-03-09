@@ -1,6 +1,7 @@
+from django.core.exceptions import ValidationError
+from django.db.models.query import QuerySet
 from fedhr.common.utils import get_object
 from fedhr.employee.models import Employee
-from django.db.models.query import QuerySet
 from fedhr.employee.filters import BaseEmployeeFilter
 
 
@@ -12,4 +13,8 @@ def employee_list(*, filters=None) -> QuerySet[Employee]:
 
 
 def employee_detail(*, pk) -> Employee:
-    return get_object(Employee, pk=pk)
+    employee = get_object(Employee, pk=pk, removed=False)
+    if not employee:
+        EMPLOYEE_INSTANCE_NONE = f'Employee with id {pk} not found'
+        raise ValidationError(EMPLOYEE_INSTANCE_NONE)
+    return employee
