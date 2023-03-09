@@ -8,7 +8,7 @@ from fedhr.employee.filters import BaseEmployeeFilter
 def employee_list(*, filters=None) -> QuerySet[Employee]:
     filters = filters or {}
 
-    qs = Employee.objects.filter(removed=False)
+    qs = Employee.objects.filter(removed=False).order_by('id')
     return BaseEmployeeFilter(filters, qs).qs
 
 
