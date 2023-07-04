@@ -61,6 +61,7 @@ THIRD_PARTY_APPS = [
     'graphene_django',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
     'graphql_auth',
+    'drf_yasg'
 ]
 
 INSTALLED_APPS = [
@@ -114,10 +115,22 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres:///fedhr'),
-}
-DATABASES['default']['ATOMIC_REQUESTS'] = True
+if os.environ.get('DATABASE_URL'):
+    DATABASES = {
+        'default': env.db('DATABASE_URL', default='postgres://postgres:postgres@localhost:5432/fedhr_db'),
+    }
+    DATABASES['default']['ATOMIC_REQUESTS'] = True
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'fedhr_db',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
 
 if os.environ.get('GITHUB_WORKFLOW'):
     DATABASES = {

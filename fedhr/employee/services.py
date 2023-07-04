@@ -6,20 +6,17 @@ from fedhr.common.services import model_update, model_delete
 EMPLOYEE_INSTANCE_IS_NONE = f'You attempted updating a {Employee.__name__} that does not exist!'
 EMPLOYEE_INSTANCE_IS_NONE_DELETE = f'You attempted deleting a {Employee.__name__} that does not exist!'
 
+
 def employee_create(
     *,
     first_name,
     last_name,
-    middle_name,
-    gender,
-    email
+    **extra_fields
 ) -> Employee:
     employee = Employee(
         first_name=first_name,
         last_name=last_name,
-        middle_name=middle_name,
-        gender=gender,
-        email=email
+        **extra_fields
     )
 
     employee.full_clean()
@@ -30,6 +27,8 @@ def employee_create(
 
 @transaction.atomic
 def employee_update(*, employee: Employee, data) -> Employee:
+    if not data:
+        raise ValidationError('No data updates were provided.')
     model_fields = list(vars(employee).keys())
     model_fields.remove('id')
 
