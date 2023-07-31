@@ -119,8 +119,8 @@ class EmployeeCreateApi(ApiAuthMixin, APIView):
 
         return Response(data=data, status=status.HTTP_201_CREATED)
 
-
-class EmployeeListApi(ApiAuthMixin, APIView):
+# ApiAuthMixin, 
+class EmployeeListApi(APIView):
     class OutputSerializer(serializers.Serializer):
         id = serializers.IntegerField()
         first_name = serializers.CharField(max_length=255, required=True)
