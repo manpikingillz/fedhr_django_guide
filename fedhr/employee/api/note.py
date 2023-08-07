@@ -53,6 +53,7 @@ class NoteListApi(ApiAuthMixin, APIView):
         note = serializers.CharField(max_length=255, required=True)
         employee = serializers.PrimaryKeyRelatedField(
             queryset=Employee.objects.all(), required=True)
+        created_at = serializers.DateTimeField()
 
     class FilterSerializer(serializers.Serializer):
         note = serializers.CharField(max_length=255, required=False)
