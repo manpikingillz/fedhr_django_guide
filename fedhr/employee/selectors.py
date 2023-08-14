@@ -26,7 +26,7 @@ def employee_detail(*, pk) -> Employee:
 def note_list(*, filters=None) -> QuerySet[Note]:
     filters = filters or {}
 
-    qs = Note.objects.filter(removed=False).order_by('id')
+    qs = Note.objects.filter(removed=False).order_by('-id')
     return BaseNoteFilter(filters, qs).qs
 
 

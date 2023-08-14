@@ -49,10 +49,16 @@ class NoteCreateApi(ApiAuthMixin, APIView):
 
 class NoteListApi(ApiAuthMixin, APIView):
     class OutputSerializer(serializers.Serializer):
+        class EmployeeSerializer(serializers.Serializer):
+            id = serializers.IntegerField()
+            first_name = serializers.CharField(max_length=255, required=False)
+            last_name = serializers.CharField(max_length=255, required=False)
+
         id = serializers.IntegerField()
         note = serializers.CharField(max_length=255, required=True)
-        employee = serializers.PrimaryKeyRelatedField(
-            queryset=Employee.objects.all(), required=True)
+        employee = EmployeeSerializer()
+        # employee = serializers.PrimaryKeyRelatedField(
+        #     queryset=Employee.objects.all(), required=True)
         created_at = serializers.DateTimeField()
 
     class FilterSerializer(serializers.Serializer):
