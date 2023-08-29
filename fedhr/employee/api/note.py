@@ -12,6 +12,8 @@ from fedhr.employee.services import employee_create, employee_update, employee_d
 from fedhr.employee.selectors import employee_detail, employee_list
 from fedhr.employee.models import Employee
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.pagination import PageNumberPagination
+
 
 
 class NoteCreateApi(ApiAuthMixin, APIView):
@@ -79,6 +81,16 @@ class NoteListApi(ApiAuthMixin, APIView):
         filters_serializer.is_valid(raise_exception=True)
 
         notes = note_list(filters=filters_serializer.validated_data)
+
+        # Create a pagination instance
+        paginator = PageNumberPagination()
+        paginator.page_size = 10  # You can adjust this or remove it if using the default page size from settings
+
+        # Get paginated result
+        result_page = paginator.paginate_queryset(notes, request)
+        if result_page is not None:
+            data = self.OutputSerializer(result_page, many=True).data
+            return paginator.get_paginated_response(data)
 
         data = self.OutputSerializer(notes, many=True).data
         return Response(data)
