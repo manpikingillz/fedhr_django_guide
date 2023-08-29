@@ -1,4 +1,3 @@
-from fedhr.setup.models import Country
 from fedhr.employee.models import Note
 from fedhr.employee.selectors import note_detail, note_list
 from fedhr.employee.services import note_create, note_delete, note_update
@@ -8,12 +7,10 @@ from rest_framework import serializers
 from rest_framework import status
 from fedhr.api.mixins import ApiAuthMixin
 from fedhr.common.utils import get_object
-from fedhr.employee.services import employee_create, employee_update, employee_delete
-from fedhr.employee.selectors import employee_detail, employee_list
 from fedhr.employee.models import Employee
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.pagination import PageNumberPagination
 
+from fedhr.api.pagination import LimitOffsetPagination
 
 
 class NoteCreateApi(ApiAuthMixin, APIView):
@@ -82,9 +79,7 @@ class NoteListApi(ApiAuthMixin, APIView):
 
         notes = note_list(filters=filters_serializer.validated_data)
 
-        # Create a pagination instance
-        paginator = PageNumberPagination()
-        paginator.page_size = 10  # You can adjust this or remove it if using the default page size from settings
+        paginator = LimitOffsetPagination()
 
         # Get paginated result
         result_page = paginator.paginate_queryset(notes, request)
