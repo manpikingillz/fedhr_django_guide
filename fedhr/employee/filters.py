@@ -10,6 +10,8 @@ class BaseEmployeeFilter(django_filters.FilterSet):
 
 
 class BaseNoteFilter(django_filters.FilterSet):
+    note = django_filters.CharFilter(lookup_expr='icontains')
+
     class Meta:
         model = Note
         fields = ('note', 'employee')
