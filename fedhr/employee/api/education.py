@@ -65,11 +65,13 @@ class EducationListApi(ApiAuthMixin, APIView):
             first_name = serializers.CharField(max_length=255, required=False)
             last_name = serializers.CharField(max_length=255, required=False)
 
+        class EducationAwardSerializer(serializers.Serializer):
+            education_award_name = serializers.CharField(max_length=255, required=True)
+
         id = serializers.IntegerField()
         employee = EmployeeSerializer()
         institution_name = serializers.CharField(required=True)
-        award = serializers.PrimaryKeyRelatedField(
-            queryset=EducationAward.objects.all(), required=True)
+        award = EducationAwardSerializer()
         major = serializers.CharField(required=False)
         start_date = serializers.DateTimeField(required=False)
         start_date = serializers.DateTimeField(required=False)
@@ -94,13 +96,13 @@ class EducationListApi(ApiAuthMixin, APIView):
 
         educations = education_list(filters=filters_serializer.validated_data)
 
-        paginator = LimitOffsetPagination()
+        # paginator = LimitOffsetPagination()
 
-        # Get paginated result
-        result_page = paginator.paginate_queryset(educations, request)
-        if result_page is not None:
-            data = self.OutputSerializer(result_page, many=True).data
-            return paginator.get_paginated_response(data)
+        # # Get paginated result
+        # result_page = paginator.paginate_queryset(educations, request)
+        # if result_page is not None:
+        #     data = self.OutputSerializer(result_page, many=True).data
+        #     return paginator.get_paginated_response(data)
 
         data = self.OutputSerializer(educations, many=True).data
         return Response(data)

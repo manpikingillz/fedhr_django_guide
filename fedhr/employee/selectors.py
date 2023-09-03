@@ -42,7 +42,7 @@ def note_detail(*, pk) -> Note:
 def education_list(*, filters=None) -> QuerySet[Education]:
     filters = filters or {}
 
-    qs = Education.objects.filter(removed=False).order_by('-id')
+    qs = Education.objects.filter(removed=False).order_by('-end_date')
     return BaseEducationFilter(filters, qs).qs
 
 
