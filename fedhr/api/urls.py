@@ -14,4 +14,5 @@ urlpatterns = [
     path('setup/', include(('fedhr.setup.urls', 'setup'))),
     path('employees/', include(('fedhr.employee.urls', 'employees'))),
     path('notes/', include(('fedhr.employee.urls_notes', 'notes'))),
+    path('education/', include(('fedhr.employee.urls_education', 'education'))),
 ]

@@ -163,14 +163,14 @@ class EmployeeDetailApi(ApiAuthMixin, APIView):
         preferred_name = serializers.CharField(max_length=255, required=False)
         gender = serializers.ChoiceField(
             choices=Employee.Gender.choices, required=False)
-        date_of_birth = serializers.DateField(required=False)
+        date_of_birth = serializers.DateTimeField(required=False)
         marital_status = serializers.ChoiceField(
             choices=Employee.MaritalStatus.choices, required=False)
         nationality = serializers.PrimaryKeyRelatedField(
             queryset=Country.objects.all(), required=False)
 
         # Job
-        hire_date = serializers.DateField(required=False)
+        hire_date = serializers.DateTimeField(required=False)
 
         # Identification Information
         social_security_number = serializers.CharField(max_length=50, required=False)
