@@ -1,7 +1,8 @@
 import django_filters
 
 from fedhr.employee.models import Employee
-from fedhr.employee.models import Note, Education
+from fedhr.employee.models import (
+    Note, Education, VisaInformation)
 
 
 class BaseEmployeeFilter(django_filters.FilterSet):
@@ -24,3 +25,10 @@ class BaseEducationFilter(django_filters.FilterSet):
     class Meta:
         model = Education
         fields = ('institution_name', 'employee')
+
+
+class BaseVisaInformationFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = VisaInformation
+        fields = ('employee',)
