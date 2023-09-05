@@ -241,7 +241,8 @@ class EmployeeUpdateApi(ApiAuthMixin, APIView):
         street2 = serializers.CharField(max_length=255, required=False)
         city = serializers.CharField(max_length=255, required=False)
         province = serializers.CharField(max_length=255, required=False)
-        country = serializers.CharField(max_length=255, required=False)
+        country = serializers.PrimaryKeyRelatedField(
+            queryset=Country.objects.all(), required=False)
         zip_code = serializers.CharField(max_length=255, required=False)
 
         # Social Information.
