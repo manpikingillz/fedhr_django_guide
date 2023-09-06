@@ -22,8 +22,8 @@ class EducationCreateApi(ApiAuthMixin, APIView):
         award = serializers.PrimaryKeyRelatedField(
             queryset=EducationAward.objects.all(), required=True)
         major = serializers.CharField(required=False)
-        start_date = serializers.DateTimeField(required=False)
-        start_date = serializers.DateTimeField(required=False)
+        start_date = serializers.DateField(required=False)
+        start_date = serializers.DateField(required=False)
         score = serializers.CharField(required=False)
 
     class OutputSerializer(serializers.Serializer):
@@ -33,8 +33,8 @@ class EducationCreateApi(ApiAuthMixin, APIView):
         award = serializers.PrimaryKeyRelatedField(
             queryset=EducationAward.objects.all(), required=True)
         major = serializers.CharField(required=False)
-        start_date = serializers.DateTimeField(required=False)
-        start_date = serializers.DateTimeField(required=False)
+        start_date = serializers.DateField(required=False)
+        start_date = serializers.DateField(required=False)
         score = serializers.CharField(required=False)
 
     # @swagger_auto_schema(
@@ -74,8 +74,8 @@ class EducationListApi(ApiAuthMixin, APIView):
         institution_name = serializers.CharField(required=True)
         award = EducationAwardSerializer()
         major = serializers.CharField(required=False)
-        start_date = serializers.DateTimeField(required=False)
-        start_date = serializers.DateTimeField(required=False)
+        start_date = serializers.DateField(required=False)
+        start_date = serializers.DateField(required=False)
         score = serializers.CharField(required=False)
 
     class FilterSerializer(serializers.Serializer):
