@@ -11,6 +11,7 @@ from fedhr.employee.selectors import education_detail, education_list
 from fedhr.employee.services import (
     education_create, education_delete, education_update)
 from fedhr.api.pagination import LimitOffsetPagination
+from rest_framework.viewsets import ModelViewSet
 
 
 class EducationCreateApi(ApiAuthMixin, APIView):
@@ -21,8 +22,8 @@ class EducationCreateApi(ApiAuthMixin, APIView):
         award = serializers.PrimaryKeyRelatedField(
             queryset=EducationAward.objects.all(), required=True)
         major = serializers.CharField(required=False)
-        start_date = serializers.DateField(required=False)
-        start_date = serializers.DateField(required=False)
+        start_date = serializers.DateTimeField(required=False)
+        start_date = serializers.DateTimeField(required=False)
         score = serializers.CharField(required=False)
 
     class OutputSerializer(serializers.Serializer):
@@ -32,8 +33,8 @@ class EducationCreateApi(ApiAuthMixin, APIView):
         award = serializers.PrimaryKeyRelatedField(
             queryset=EducationAward.objects.all(), required=True)
         major = serializers.CharField(required=False)
-        start_date = serializers.DateField(required=False)
-        start_date = serializers.DateField(required=False)
+        start_date = serializers.DateTimeField(required=False)
+        start_date = serializers.DateTimeField(required=False)
         score = serializers.CharField(required=False)
 
     # @swagger_auto_schema(
@@ -137,3 +138,14 @@ class EducationDeleteApi(ApiAuthMixin, APIView):
         education_delete(education=education)
 
         return Response(status=status.HTTP_200_OK)
+
+
+class EducationAwardViewSet(ApiAuthMixin, ModelViewSet):
+    class OutputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = EducationAward
+            fields = ['id', 'education_award_name']
+
+    queryset = EducationAward.objects.all()
+    serializer_class = OutputSerializer
+    pagination_class = None
