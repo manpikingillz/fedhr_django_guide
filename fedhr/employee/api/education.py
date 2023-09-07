@@ -23,7 +23,7 @@ class EducationCreateApi(ApiAuthMixin, APIView):
             queryset=EducationAward.objects.all(), required=True)
         major = serializers.CharField(required=False)
         start_date = serializers.DateField(required=False)
-        start_date = serializers.DateField(required=False)
+        end_date = serializers.DateField(required=False)
         score = serializers.CharField(required=False)
 
     class OutputSerializer(serializers.Serializer):
@@ -34,7 +34,7 @@ class EducationCreateApi(ApiAuthMixin, APIView):
             queryset=EducationAward.objects.all(), required=True)
         major = serializers.CharField(required=False)
         start_date = serializers.DateField(required=False)
-        start_date = serializers.DateField(required=False)
+        end_date = serializers.DateField(required=False)
         score = serializers.CharField(required=False)
 
     # @swagger_auto_schema(
@@ -67,6 +67,7 @@ class EducationListApi(ApiAuthMixin, APIView):
             last_name = serializers.CharField(max_length=255, required=False)
 
         class EducationAwardSerializer(serializers.Serializer):
+            id = serializers.IntegerField()
             education_award_name = serializers.CharField(max_length=255, required=True)
 
         id = serializers.IntegerField()
@@ -75,7 +76,7 @@ class EducationListApi(ApiAuthMixin, APIView):
         award = EducationAwardSerializer()
         major = serializers.CharField(required=False)
         start_date = serializers.DateField(required=False)
-        start_date = serializers.DateField(required=False)
+        end_date = serializers.DateField(required=False)
         score = serializers.CharField(required=False)
 
     class FilterSerializer(serializers.Serializer):
@@ -118,7 +119,7 @@ class EducationUpdateApi(ApiAuthMixin, APIView):
             queryset=EducationAward.objects.all(), required=True)
         major = serializers.CharField(required=False)
         start_date = serializers.DateField(required=False)
-        start_date = serializers.DateField(required=False)
+        end_date = serializers.DateField(required=False)
         score = serializers.CharField(required=False)
 
     def post(self, request, note_id):
