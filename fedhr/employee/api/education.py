@@ -133,8 +133,8 @@ class EducationUpdateApi(ApiAuthMixin, APIView):
 
 
 class EducationDeleteApi(ApiAuthMixin, APIView):
-    def post(self, request, note_id):
-        education = get_object(Education, pk=note_id)
+    def post(self, request, education_id):
+        education = get_object(Education, pk=education_id)
 
         education_delete(education=education)
 
