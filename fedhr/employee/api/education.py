@@ -122,11 +122,11 @@ class EducationUpdateApi(ApiAuthMixin, APIView):
         end_date = serializers.DateField(required=False)
         score = serializers.CharField(required=False)
 
-    def post(self, request, note_id):
+    def post(self, request, education_id):
         serializer = self.InputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        education = get_object(Education, pk=note_id)
+        education = get_object(Education, pk=education_id)
 
         education_update(education=education, data=serializer.validated_data)
         return Response(status=status.HTTP_200_OK)
