@@ -20,13 +20,13 @@ class VisaInformationCreateApi(ApiAuthMixin, APIView):
     class InputSerializer(serializers.Serializer):
         employee = serializers.PrimaryKeyRelatedField(
             queryset=Employee.objects.all(), required=True)
-        date = serializers.DateField(required=False)
+        date = serializers.DateField(required=False, allow_null=True)
         visa = serializers.PrimaryKeyRelatedField(
             queryset=Visa.objects.all(), required=True)
-        issued_date = serializers.DateField(required=False)
+        issued_date = serializers.DateField(required=False, allow_null=True)
         issuing_country = serializers.PrimaryKeyRelatedField(
             queryset=Country.objects.all(), required=True)
-        expiration_date = serializers.DateField(required=False)
+        expiration_date = serializers.DateField(required=False, allow_null=True)
         note = serializers.CharField(required=False)
 
     class OutputSerializer(serializers.Serializer):
@@ -130,28 +130,28 @@ class VisaInformationUpdateApi(ApiAuthMixin, APIView):
     class InputSerializer(serializers.Serializer):
         employee = serializers.PrimaryKeyRelatedField(
             queryset=Employee.objects.all(), required=True)
-        date = serializers.DateField(required=False)
+        date = serializers.DateField(required=False, allow_null=True)
         visa = serializers.PrimaryKeyRelatedField(
             queryset=Visa.objects.all(), required=True)
-        issued_date = serializers.DateField(required=False)
+        issued_date = serializers.DateField(required=False, allow_null=True)
         issuing_country = serializers.PrimaryKeyRelatedField(
             queryset=Country.objects.all(), required=True)
-        expiration_date = serializers.DateField(required=False)
+        expiration_date = serializers.DateField(required=False, allow_null=True)
         note = serializers.CharField(required=False)
 
-    def post(self, request, note_id):
+    def post(self, request, visa_information_id):
         serializer = self.InputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        visa_information = get_object(VisaInformation, pk=note_id)
+        visa_information = get_object(VisaInformation, pk=visa_information_id)
 
         visa_information_update(visa_information=visa_information, data=serializer.validated_data)
         return Response(status=status.HTTP_200_OK)
 
 
 class VisaInformationDeleteApi(ApiAuthMixin, APIView):
-    def post(self, request, note_id):
-        visa_information = get_object(VisaInformation, pk=note_id)
+    def post(self, request, visa_information_id):
+        visa_information = get_object(VisaInformation, pk=visa_information_id)
 
         visa_information_delete(visa_information=visa_information)
 
