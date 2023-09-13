@@ -20,13 +20,13 @@ class VisaInformationCreateApi(ApiAuthMixin, APIView):
     class InputSerializer(serializers.Serializer):
         employee = serializers.PrimaryKeyRelatedField(
             queryset=Employee.objects.all(), required=True)
-        date = serializers.DateTimeField(required=False)
+        date = serializers.DateField(required=False)
         visa = serializers.PrimaryKeyRelatedField(
             queryset=Visa.objects.all(), required=True)
-        issued_date = serializers.DateTimeField(required=False)
+        issued_date = serializers.DateField(required=False)
         issuing_country = serializers.PrimaryKeyRelatedField(
             queryset=Country.objects.all(), required=True)
-        expiration_date = serializers.DateTimeField(required=False)
+        expiration_date = serializers.DateField(required=False)
         note = serializers.CharField(required=False)
 
     class OutputSerializer(serializers.Serializer):
@@ -43,11 +43,11 @@ class VisaInformationCreateApi(ApiAuthMixin, APIView):
 
         id = serializers.IntegerField()
         employee = EmployeeSerializer()
-        date = serializers.DateTimeField(required=False)
+        date = serializers.DateField(required=False)
         visa = VisaSerializer()
-        issued_date = serializers.DateTimeField(required=False)
+        issued_date = serializers.DateField(required=False)
         issuing_country = CountrySerializer()
-        expiration_date = serializers.DateTimeField(required=False)
+        expiration_date = serializers.DateField(required=False)
         note = serializers.CharField(required=False)
 
     # @swagger_auto_schema(
@@ -89,11 +89,11 @@ class VisaInformationListApi(ApiAuthMixin, APIView):
 
         id = serializers.IntegerField()
         employee = EmployeeSerializer()
-        date = serializers.DateTimeField(required=False)
+        date = serializers.DateField(required=False)
         visa = VisaSerializer()
-        issued_date = serializers.DateTimeField(required=False)
+        issued_date = serializers.DateField(required=False)
         issuing_country = CountrySerializer()
-        expiration_date = serializers.DateTimeField(required=False)
+        expiration_date = serializers.DateField(required=False)
         note = serializers.CharField(required=False)
 
     class FilterSerializer(serializers.Serializer):
@@ -130,13 +130,13 @@ class VisaInformationUpdateApi(ApiAuthMixin, APIView):
     class InputSerializer(serializers.Serializer):
         employee = serializers.PrimaryKeyRelatedField(
             queryset=Employee.objects.all(), required=True)
-        date = serializers.DateTimeField(required=False)
+        date = serializers.DateField(required=False)
         visa = serializers.PrimaryKeyRelatedField(
             queryset=Visa.objects.all(), required=True)
-        issued_date = serializers.DateTimeField(required=False)
+        issued_date = serializers.DateField(required=False)
         issuing_country = serializers.PrimaryKeyRelatedField(
             queryset=Country.objects.all(), required=True)
-        expiration_date = serializers.DateTimeField(required=False)
+        expiration_date = serializers.DateField(required=False)
         note = serializers.CharField(required=False)
 
     def post(self, request, note_id):

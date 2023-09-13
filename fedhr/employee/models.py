@@ -98,11 +98,11 @@ class Visa(BaseModel):
 
 class VisaInformation(BaseModel):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    date = models.DateTimeField(null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
     visa = models.ForeignKey(Visa, on_delete=models.SET_NULL, null=True, blank=True)
-    issued_date = models.DateTimeField(null=True, blank=True)
+    issued_date = models.DateField(null=True, blank=True)
     issuing_country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, blank=True)
-    expiration_date = models.DateTimeField(null=True, blank=True)
+    expiration_date = models.DateField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
 
     def __str__(self) -> str:
