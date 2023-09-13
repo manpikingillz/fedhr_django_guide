@@ -22,8 +22,8 @@ class EducationCreateApi(ApiAuthMixin, APIView):
         award = serializers.PrimaryKeyRelatedField(
             queryset=EducationAward.objects.all(), required=True)
         major = serializers.CharField(required=False)
-        start_date = serializers.DateField(required=False)
-        end_date = serializers.DateField(required=False)
+        start_date = serializers.DateField(required=False, allow_null=True)
+        end_date = serializers.DateField(required=False, allow_null=True)
         score = serializers.CharField(required=False)
 
     class OutputSerializer(serializers.Serializer):
@@ -118,8 +118,8 @@ class EducationUpdateApi(ApiAuthMixin, APIView):
         award = serializers.PrimaryKeyRelatedField(
             queryset=EducationAward.objects.all(), required=True)
         major = serializers.CharField(required=False)
-        start_date = serializers.DateField(required=False)
-        end_date = serializers.DateField(required=False)
+        start_date = serializers.DateField(required=False, allow_null=True)
+        end_date = serializers.DateField(required=False, allow_null=True)
         score = serializers.CharField(required=False)
 
     def post(self, request, education_id):
