@@ -13,6 +13,7 @@ from fedhr.employee.selectors import (
 from fedhr.employee.services import (
     visa_information_create, visa_information_update, visa_information_delete)
 from fedhr.api.pagination import LimitOffsetPagination
+from rest_framework.viewsets import ModelViewSet
 
 
 class VisaInformationCreateApi(ApiAuthMixin, APIView):
@@ -79,9 +80,11 @@ class VisaInformationListApi(ApiAuthMixin, APIView):
             last_name = serializers.CharField(max_length=255, required=False)
 
         class VisaSerializer(serializers.Serializer):
+            id = serializers.IntegerField()
             visa_name = serializers.CharField(max_length=255, required=True)
 
         class CountrySerializer(serializers.Serializer):
+            id = serializers.IntegerField()
             country_name = serializers.CharField(max_length=255, required=True)
 
         id = serializers.IntegerField()
@@ -153,3 +156,14 @@ class VisaInformationDeleteApi(ApiAuthMixin, APIView):
         visa_information_delete(visa_information=visa_information)
 
         return Response(status=status.HTTP_200_OK)
+
+
+class VisaViewSet(ApiAuthMixin, ModelViewSet):
+    class OutputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Visa
+            fields = ['id', 'visa_name']
+
+    queryset = Visa.objects.all()
+    serializer_class = OutputSerializer
+    pagination_class = None
