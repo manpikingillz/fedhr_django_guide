@@ -1,12 +1,19 @@
 from django.core.exceptions import ValidationError
 from django.db.models.query import QuerySet
 from fedhr.common.utils import get_object
-from fedhr.employee.models import Employee
-from fedhr.employee.filters import BaseEmployeeFilter
-from fedhr.employee.models import Note
-from fedhr.employee.filters import BaseNoteFilter
+from fedhr.employee.models import (
+    Employee,
+    Note,
+    Education,
+    VisaInformation)
+from fedhr.employee.filters import (
+    BaseEmployeeFilter,
+    BaseNoteFilter,
+    BaseEducationFilter,
+    BaseVisaInformationFilter)
 
-# Employee
+
+# Employee =====================================================
 def employee_list(*, filters=None) -> QuerySet[Employee]:
     filters = filters or {}
 
@@ -22,7 +29,7 @@ def employee_detail(*, pk) -> Employee:
     return employee
 
 
-# Note
+# Note =====================================================
 def note_list(*, filters=None) -> QuerySet[Note]:
     filters = filters or {}
 
@@ -36,3 +43,34 @@ def note_detail(*, pk) -> Note:
         NOTE_INSTANCE_NONE = f'Note with id {pk} not found'
         raise ValidationError(NOTE_INSTANCE_NONE)
     return note
+
+
+# Education =====================================================
+def education_list(*, filters=None) -> QuerySet[Education]:
+    filters = filters or {}
+
+    qs = Education.objects.filter(removed=False).order_by('-end_date')
+    return BaseEducationFilter(filters, qs).qs
+
+
+def education_detail(*, pk) -> Note:
+    education = get_object(Education, pk=pk, removed=False)
+    if not education:
+        EDUCATION_INSTANCE_NONE = f'Education with id {pk} not found'
+        raise ValidationError(EDUCATION_INSTANCE_NONE)
+    return education
+
+# Visa Information =====================================================
+def visa_information_list(*, filters=None) -> QuerySet[VisaInformation]:
+    filters = filters or {}
+
+    qs = VisaInformation.objects.filter(removed=False).order_by('-expiration_date')
+    return BaseVisaInformationFilter(filters, qs).qs
+
+
+def visa_information_detail(*, pk) -> Note:
+    visa_information = get_object(VisaInformation, pk=pk, removed=False)
+    if not visa_information:
+        VISA_INFORMATION_INSTANCE_NONE = f'Visa Information with id {pk} not found'
+        raise ValidationError(VISA_INFORMATION_INSTANCE_NONE)
+    return visa_information

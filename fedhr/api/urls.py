@@ -14,4 +14,7 @@ urlpatterns = [
     path('setup/', include(('fedhr.setup.urls', 'setup'))),
     path('employees/', include(('fedhr.employee.urls', 'employees'))),
     path('notes/', include(('fedhr.employee.urls_notes', 'notes'))),
+    path('educations/', include(('fedhr.employee.urls_education', 'educations'))),
+    path('visa-informations/', include(('fedhr.employee.urls_visa_information', 'visa_informations'))),
+    path('employment-status/', include(('fedhr.employee.urls_employment_status', 'employment_status'))),
 ]

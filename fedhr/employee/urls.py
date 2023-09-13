@@ -8,6 +8,7 @@ from fedhr.employee.api.employee import (
     EmployeeDeleteApi,
 )
 
+
 urlpatterns = [
     path('create/', EmployeeCreateApi.as_view(), name='employee_create'),
     path('', EmployeeListApi.as_view(), name='employee_list'),
@@ -15,3 +16,7 @@ urlpatterns = [
     path('<int:employee_id>/update/', EmployeeUpdateApi.as_view(), name='employee_update'),
     path('<int:employee_id>/delete/', EmployeeDeleteApi.as_view(), name='employee_delete')
 ]
+
+
+
+

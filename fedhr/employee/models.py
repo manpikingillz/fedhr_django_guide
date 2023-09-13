@@ -81,8 +81,8 @@ class Education(BaseModel):
     institution_name = models.CharField(max_length=255)
     award = models.ForeignKey(EducationAward, on_delete=models.SET_NULL,null=True, blank=True)
     major = models.CharField(max_length=255, null=True, blank=True)
-    start_date = models.DateTimeField(null=True, blank=True)
-    end_date = models.DateTimeField(null=True, blank=True)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
     score = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self) -> str:
@@ -98,11 +98,11 @@ class Visa(BaseModel):
 
 class VisaInformation(BaseModel):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    date = models.DateTimeField(null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
     visa = models.ForeignKey(Visa, on_delete=models.SET_NULL, null=True, blank=True)
-    issued_date = models.DateTimeField(null=True, blank=True)
+    issued_date = models.DateField(null=True, blank=True)
     issuing_country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, blank=True)
-    expiration_date = models.DateTimeField(null=True, blank=True)
+    expiration_date = models.DateField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
 
     def __str__(self) -> str:
