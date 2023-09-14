@@ -3,6 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework import serializers
 
 from fedhr.employee.models import JobInformation
+from fedhr.employee.models import Department, Division, Job, Location
 
 
 class JobInformationViewSet(ApiAuthMixin, ModelViewSet):
@@ -53,12 +54,44 @@ class JobInformationViewSet(ApiAuthMixin, ModelViewSet):
         return self.InputSerializer
 
 
-# class EmploymentStatusTypeViewSet(ApiAuthMixin, ModelViewSet):
-#     class OutputSerializer(serializers.ModelSerializer):
-#         class Meta:
-#             model = EmploymentStatusType
-#             fields = ['id', 'employment_status_type_name']
+class LocationViewSet(ApiAuthMixin, ModelViewSet):
+    class OutputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Location
+            fields = ['id', 'location_name']
 
-#     queryset = EmploymentStatusType.objects.all()
-#     serializer_class = OutputSerializer
-#     pagination_class = None
+    queryset = Location.objects.all()
+    serializer_class = OutputSerializer
+    pagination_class = None
+
+
+class DivisionViewSet(ApiAuthMixin, ModelViewSet):
+    class OutputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Division
+            fields = ['id', 'division_name']
+
+    queryset = Division.objects.all()
+    serializer_class = OutputSerializer
+    pagination_class = None
+
+
+class DepartmentViewSet(ApiAuthMixin, ModelViewSet):
+    class OutputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Department
+            fields = ['id', 'department_name']
+
+    queryset = Department.objects.all()
+    serializer_class = OutputSerializer
+    pagination_class = None
+
+class JobViewSet(ApiAuthMixin, ModelViewSet):
+    class OutputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Job
+            fields = ['id', 'job_title_name']
+
+    queryset = Job.objects.all()
+    serializer_class = OutputSerializer
+    pagination_class = None
