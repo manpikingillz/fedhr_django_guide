@@ -152,7 +152,7 @@ class Job(BaseModel):
 
 class JobInformation(BaseModel):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    effective_date = models.DateTimeField(null=True, blank=True)
+    effective_date = models.DateField(null=True, blank=True)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True, blank=True)
     division = models.ForeignKey(Division, on_delete=models.SET_NULL, null=True, blank=True)
     department = models.ForeignKey(Department,  on_delete=models.SET_NULL, null=True, blank=True)
