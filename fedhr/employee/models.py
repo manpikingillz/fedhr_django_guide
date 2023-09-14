@@ -118,7 +118,7 @@ class EmploymentStatusType(BaseModel):
 
 class EmploymentStatus(BaseModel):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    effective_date = models.DateTimeField(null=True, blank=True)
+    effective_date = models.DateField(null=True, blank=True)
     employment_status_type = models.ForeignKey(EmploymentStatusType, on_delete=models.SET_NULL, null=True, blank=True)
     comment = models.TextField(null=True, blank=True)
 
