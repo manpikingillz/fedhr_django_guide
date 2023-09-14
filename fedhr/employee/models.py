@@ -202,7 +202,7 @@ class Compensation(BaseModel):
         EVERY_OTHER_WEEK = 'EVERY_OTHER_WEEK', 'Every other week'
 
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    effectived_date = models.DateTimeField(null=True, blank=True)
+    effective_date = models.DateField(null=True, blank=True)
     pay_type = models.CharField(choices=PayType.choices, max_length=50)
     pay_rate = models.DecimalField(max_digits=12, decimal_places=2)
     pay_rate_currency = models.ForeignKey(Currency, on_delete=models.SET_NULL, null=True, blank=True)
