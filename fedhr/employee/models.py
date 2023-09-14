@@ -152,7 +152,7 @@ class Job(BaseModel):
 
 class JobInformation(BaseModel):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    effective_date = models.DateTimeField(null=True, blank=True)
+    effective_date = models.DateField(null=True, blank=True)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True, blank=True)
     division = models.ForeignKey(Division, on_delete=models.SET_NULL, null=True, blank=True)
     department = models.ForeignKey(Department,  on_delete=models.SET_NULL, null=True, blank=True)
@@ -185,15 +185,15 @@ class Compensation(BaseModel):
         WEEK = 'WEEK', 'Week'
         MONTH = 'MONTH', 'Month'
         QUARTER = 'QUARTER', 'Quarter'
-        YEAR = 'Year'
-        PAY_PERIOD = 'Pay Period'
-        PIECE = 'Piece'
+        YEAR = 'YEAR', 'Year'
+        PAY_PERIOD = 'PAY_PERIOD', 'Pay Period'
+        PIECE = 'PIECE', 'Piece'
     class OvertimeStatus(models.TextChoices):
         EXEMPT = 'EXEMPT', 'Exempt'
         NON_EXEMPT = 'NON_EXEMPT', 'Non Exempt'
 
     class PaymentMethod(models.TextChoices):
-        PAYCHECK = 'PAYCHECK', 'PAYCHECK'
+        PAYCHECK = 'PAYCHECK', 'Paycheck'
         DIRECT_DEPOSIT = 'DIRECT_DEPOSIT', 'Direct Deposit'
         CASH = 'CASH', 'Cash'
 
@@ -202,7 +202,7 @@ class Compensation(BaseModel):
         EVERY_OTHER_WEEK = 'EVERY_OTHER_WEEK', 'Every other week'
 
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    effectived_date = models.DateTimeField(null=True, blank=True)
+    effective_date = models.DateField(null=True, blank=True)
     pay_type = models.CharField(choices=PayType.choices, max_length=50)
     pay_rate = models.DecimalField(max_digits=12, decimal_places=2)
     pay_rate_currency = models.ForeignKey(Currency, on_delete=models.SET_NULL, null=True, blank=True)

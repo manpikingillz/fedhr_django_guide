@@ -169,7 +169,7 @@ class ChangeReasonAdmin(admin.ModelAdmin):
 class CompensationAdmin(admin.ModelAdmin):
     fields = (
         'employee',
-        'effectived_date',
+        'effective_date',
         'pay_type',
         'pay_rate',
         'pay_rate_currency',
@@ -182,7 +182,7 @@ class CompensationAdmin(admin.ModelAdmin):
     )
     list_display = (
         'employee',
-        'effectived_date',
+        'effective_date',
         'pay_type',
         'pay_rate',
         'pay_rate_currency',
