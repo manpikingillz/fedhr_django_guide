@@ -185,15 +185,15 @@ class Compensation(BaseModel):
         WEEK = 'WEEK', 'Week'
         MONTH = 'MONTH', 'Month'
         QUARTER = 'QUARTER', 'Quarter'
-        YEAR = 'Year'
-        PAY_PERIOD = 'Pay Period'
-        PIECE = 'Piece'
+        YEAR = 'YEAR', 'Year'
+        PAY_PERIOD = 'PAY_PERIOD', 'Pay Period'
+        PIECE = 'PIECE', 'Piece'
     class OvertimeStatus(models.TextChoices):
         EXEMPT = 'EXEMPT', 'Exempt'
         NON_EXEMPT = 'NON_EXEMPT', 'Non Exempt'
 
     class PaymentMethod(models.TextChoices):
-        PAYCHECK = 'PAYCHECK', 'PAYCHECK'
+        PAYCHECK = 'PAYCHECK', 'Paycheck'
         DIRECT_DEPOSIT = 'DIRECT_DEPOSIT', 'Direct Deposit'
         CASH = 'CASH', 'Cash'
 
