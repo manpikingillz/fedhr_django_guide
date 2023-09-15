@@ -13,11 +13,16 @@ class EmergencyContactViewSet(ApiAuthMixin, ModelViewSet):
             first_name = serializers.CharField(max_length=255, required=False)
             last_name = serializers.CharField(max_length=255, required=False)
 
+        class RelationshipSerializer(serializers.Serializer):
+            id = serializers.IntegerField()
+            relationship_name = serializers.CharField(max_length=255)
+
         class CountrySerializer(serializers.Serializer):
             id = serializers.IntegerField()
             country_name = serializers.CharField(max_length=255)
 
         employee = EmployeeSerializer()
+        relationship = RelationshipSerializer()
         nationality = CountrySerializer()
 
         class Meta:

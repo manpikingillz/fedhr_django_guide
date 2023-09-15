@@ -215,10 +215,17 @@ class Compensation(BaseModel):
     payment_method = models.CharField(choices=PaymentMethod.choices, max_length=50)
     comment = models.TextField(null=True, blank=True)
 
+
+class Relationship(BaseModel):
+    relationship_name = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.relationship_name
+
 class EmergencyContact(BaseModel):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True, blank=True)
-    relationship = models.CharField(max_length=255, null=True, blank=True)
+    relationship = models.ForeignKey(Relationship, on_delete=models.SET_NULL, null=True, blank=True)
     mobile_phone = models.CharField(max_length=50, null=True, blank=True)
     home_phone = models.CharField(max_length=50, null=True, blank=True)
     work_phone = models.CharField(max_length=50, null=True, blank=True)

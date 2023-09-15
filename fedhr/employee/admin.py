@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from fedhr.employee.models import ChangeReason, Compensation, Currency, Department, Dependant, Division, Education, EducationAward, EmergencyContact, Employee, EmploymentStatus, EmploymentStatusType, Job, JobInformation, Location, Note, Visa, VisaInformation
+from fedhr.employee.models import Relationship
 
 
 @admin.register(Employee)
@@ -262,3 +263,9 @@ class DependantAdmin(admin.ModelAdmin):
 class NoteAdmin(admin.ModelAdmin):
     fields = ('employee', 'note')
     list_display = ('employee', 'note')
+
+
+@admin.register(Relationship)
+class NoteAdmin(admin.ModelAdmin):
+    fields = ('relationship_name', )
+    list_display = ('relationship_name',)
