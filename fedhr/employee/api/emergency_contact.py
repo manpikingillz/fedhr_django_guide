@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 from fedhr.employee.models import JobInformation
 from fedhr.employee.models import EmergencyContact
+from fedhr.employee.models import Relationship
 
 
 class EmergencyContactViewSet(ApiAuthMixin, ModelViewSet):
@@ -41,3 +42,14 @@ class EmergencyContactViewSet(ApiAuthMixin, ModelViewSet):
         if self.request.method in ['GET']:
             return self.OutputSerializer
         return self.InputSerializer
+
+
+class RelationshipViewSet(ApiAuthMixin, ModelViewSet):
+    class OutputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Relationship
+            fields = ['id', 'relationship_name']
+
+    queryset = Relationship.objects.all()
+    serializer_class = OutputSerializer
+    pagination_class = None
