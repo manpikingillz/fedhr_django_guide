@@ -19,5 +19,5 @@ urlpatterns = [
     path('employment-status/', include(('fedhr.employee.urls_employment_status', 'employment_status'))),
     path('job-information/', include(('fedhr.employee.urls_job_information', 'job_information'))),
     path('compensation/', include(('fedhr.employee.urls_compensation', 'compensation'))),
-
+    path('emergency-contact/', include(('fedhr.employee.urls_emergency_contact', 'emergency_contact')))
 ]
