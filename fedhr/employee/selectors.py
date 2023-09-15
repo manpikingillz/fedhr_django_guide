@@ -11,6 +11,7 @@ from fedhr.employee.filters import (
     BaseNoteFilter,
     BaseEducationFilter,
     BaseVisaInformationFilter)
+from fedhr.employee.models import JobInformation
 
 
 # Employee =====================================================
@@ -74,3 +75,16 @@ def visa_information_detail(*, pk) -> Note:
         VISA_INFORMATION_INSTANCE_NONE = f'Visa Information with id {pk} not found'
         raise ValidationError(VISA_INFORMATION_INSTANCE_NONE)
     return visa_information
+
+# Job Information =====================================================
+def direct_reports_list(*, filters=None) -> QuerySet[Employee]:
+    filters = filters or {}
+    reports_to_id = filters.get('reports_to_id')
+
+    if not reports_to_id:
+        DIRECT_REPORTS_NO_EMPLOYEE_ID_FILTER = f'You must provide reports_to_id (Employee being reported to).'
+        raise ValidationError(DIRECT_REPORTS_NO_EMPLOYEE_ID_FILTER)
+
+    direct_reports_ids = JobInformation.objects.filter(reports_to=reports_to_id).values_list('employee_id', flat=True)
+    direct_reports = Employee.objects.filter(id__in=direct_reports_ids)
+    return direct_reports
