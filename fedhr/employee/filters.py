@@ -6,6 +6,8 @@ from fedhr.employee.models import (
 
 
 class BaseEmployeeFilter(django_filters.FilterSet):
+    # id = django_filters.BaseInFilter(field_name='id', lookup_expr='in')
+
     class Meta:
         model = Employee
         fields = ('first_name', 'last_name', 'email')

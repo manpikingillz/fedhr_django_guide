@@ -80,6 +80,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         )
     )
     list_display = (
+        'id',
         'first_name',
         'last_name',
         'gender',
@@ -152,7 +153,7 @@ class JobAdmin(admin.ModelAdmin):
 class JobInformationAdmin(admin.ModelAdmin):
     fields = ('employee', 'effective_date', 'location',
               'division', 'department', 'job', 'reports_to')
-    list_display = ('employee', 'effective_date', 'location',
+    list_display = ('id', 'employee', 'effective_date', 'location',
               'division', 'department', 'job', 'reports_to')
 
 @admin.register(Currency)
