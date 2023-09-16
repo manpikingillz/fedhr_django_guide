@@ -258,4 +258,19 @@ class Note(BaseModel):
      employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
      note = models.TextField()
 
+
+class AssetCategory(BaseModel):
+    asset_category_name = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.asset_category_name
+
+class Asset(BaseModel):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    asset_category = models.ForeignKey(AssetCategory, on_delete=models.SET_NULL, null=True, blank=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    serial_number = models.CharField(max_length=255, null=True, blank=True)
+    date_assigned = models.DateField(null=True, blank=True)
+    date_returned = models.DateField(null=True, blank=True)
+
 # TODO: Implement Employee Documents. Check Zenefits
