@@ -3,6 +3,7 @@ from django.contrib import admin
 from fedhr.employee.models import ChangeReason, Compensation, Currency, Department, Dependant, Division, Education, EducationAward, EmergencyContact, Employee, EmploymentStatus, EmploymentStatusType, Job, JobInformation, Location, Note, Visa, VisaInformation
 from fedhr.employee.models import Relationship
 from fedhr.employee.models import Asset, AssetCategory
+from fedhr.employee.models import Course, Training
 
 
 @admin.register(Employee)
@@ -303,3 +304,48 @@ class AssetCategoryAdmin(admin.ModelAdmin):
         'id',
         'asset_category_name'
     )
+
+
+@admin.register(Training)
+class TrainingAdmin(admin.ModelAdmin):
+    fields = (
+        'employee',
+        'course',
+        'completed',
+        'cost',
+        'credits',
+        'hours',
+        'instructor',
+        'note',
+        'attachments'
+    )
+    list_display = (
+        'id',
+        'employee',
+        'course',
+        'completed',
+        'cost',
+        'credits',
+        'hours',
+        'instructor',
+        'note',
+        'formatted_attachments'
+    )
+
+    def formatted_attachments(self, obj):
+        return obj.attachments.count()
+    formatted_attachments.short_description = 'Attachments Count'
+
+
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    fields = (
+        'course_name',
+
+    )
+    list_display = (
+        'id',
+        'course_name'
+    )
+
+

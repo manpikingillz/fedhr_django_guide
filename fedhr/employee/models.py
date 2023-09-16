@@ -273,4 +273,29 @@ class Asset(BaseModel):
     date_assigned = models.DateField(null=True, blank=True)
     date_returned = models.DateField(null=True, blank=True)
 
+
+class Course(BaseModel):
+    course_name = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.course_name
+
+
+class Training(BaseModel):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True)
+    completed = models.DateField(null=True, blank=True)
+    cost = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    credits = models.FloatField(null=True, blank=True)
+    hours = models.FloatField(null=True, blank=True)
+    instructor = models.CharField(max_length=255, null=True, blank=True)
+    note = models.TextField(null=True, blank=True)
+    attachments = models.ManyToManyField(
+        File,
+        related_name='training_attachments',
+        blank=True
+    )
+
+    def __str__(self) -> str:
+        return self.course.course_name if self.course else ''
 # TODO: Implement Employee Documents. Check Zenefits
