@@ -280,3 +280,11 @@ class TalentPoolApplicant(BaseModel):
 
     def __str__(self) -> str:
         return f'{self.talent_pool.talent_pool_name} : {self.candidate.full_name}'
+
+
+class Template(BaseModel):
+    template_name = models.CharField(max_length=255)
+    template = models.TextField()
+
+    def __str__(self) -> str:
+        return self.template_name
