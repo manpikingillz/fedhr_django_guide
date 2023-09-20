@@ -113,5 +113,5 @@ class TalentPoolApplicantAdmin(admin.ModelAdmin):
 
 @admin.register(Template)
 class TemplateAdmin(admin.ModelAdmin):
-    fields = ('template_name', 'template')
-    list_display = ('template_name', 'template')
+    fields = ('template_name', 'template_content', 'template_type')
+    list_display = ( 'id', 'template_name', 'template_content', 'template_type')

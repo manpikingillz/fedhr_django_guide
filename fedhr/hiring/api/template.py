@@ -9,7 +9,7 @@ class TemplateViewSet(ApiAuthMixin, ModelViewSet):
     class OutputSerializer(serializers.ModelSerializer):
         class Meta:
             model = Template
-            fields = ['id', 'template_name', 'template']
+            fields = ['id', 'template_name', 'template_content', 'template_type']
 
     queryset = Template.objects.all()
     serializer_class = OutputSerializer
