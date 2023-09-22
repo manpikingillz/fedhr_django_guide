@@ -41,7 +41,7 @@ class JobOpeningViewSet(ApiAuthMixin, ModelViewSet):
             fields = ['id', 'job_title', 'job_status', 'hiring_lead',
                       'hiring_department', 'employment_type', 'minimum_experience',
                       'job_description', 'location', 'country', 'city', 'province', 'postal_code',
-                      'compensation']
+                      'compensation', 'created_at']
 
     class InputSerializer(serializers.ModelSerializer):
         class Meta:
