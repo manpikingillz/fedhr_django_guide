@@ -280,3 +280,19 @@ class TalentPoolApplicant(BaseModel):
 
     def __str__(self) -> str:
         return f'{self.talent_pool.talent_pool_name} : {self.candidate.full_name}'
+
+
+class Template(BaseModel):
+    class TemplateType(models.TextChoices):
+        EMAIL_TEMPLATE = 'EMAIL_TEMPLATE', 'Email Template'
+        JOB_OFFER_TEMPLATE = 'JOB_OFFER_TEMPLATE', 'Job Offer Template'
+        CONTRACT_TEMPLATE = 'CONTRACT_TEMPLATE', 'Contract Template'
+
+    template_name = models.CharField(max_length=255)
+    template_content = models.TextField()
+    template_type = models.CharField(
+        choices=TemplateType.choices, max_length=50, null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.template_name
+

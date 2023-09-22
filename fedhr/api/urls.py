@@ -21,6 +21,6 @@ urlpatterns = [
     path('compensation/', include(('fedhr.employee.urls_compensation', 'compensation'))),
     path('emergency-contact/', include(('fedhr.employee.urls_emergency_contact', 'emergency_contact'))),
     path('asset/', include(('fedhr.employee.urls_asset', 'asset'))),
-    path('training/', include(('fedhr.employee.urls_training', 'training')))
-
+    path('training/', include(('fedhr.employee.urls_training', 'training'))),
+    path('template/', include(('fedhr.hiring.urls', 'template')))
 ]

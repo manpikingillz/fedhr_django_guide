@@ -5,7 +5,7 @@ from fedhr.hiring.models import (
     JobApplicationComment, JobApplicationEmail,
     JobApplicationQuestionAnswer, JobOpening,
     JobOpeningQuestion, Question, QuestionType,
-    TalentPool, TalentPoolApplicant)
+    TalentPool, TalentPoolApplicant, Template)
 
 
 @admin.register(JobOpening)
@@ -109,3 +109,9 @@ class TalentPoolApplicantAdmin(admin.ModelAdmin):
     fields = ('talent_pool', 'candidate', 'created_by', 'reason_for_adding_candidate')
     list_display = ('talent_pool', 'candidate',
                     'created_by', 'reason_for_adding_candidate')
+
+
+@admin.register(Template)
+class TemplateAdmin(admin.ModelAdmin):
+    fields = ('template_name', 'template_content', 'template_type')
+    list_display = ( 'id', 'template_name', 'template_content', 'template_type')
