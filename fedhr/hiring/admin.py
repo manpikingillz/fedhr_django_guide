@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from fedhr.hiring.models import (
-    ApplicationStatus, Candidate, JobApplication,
+    ApplicationStatus, Candidate, EmploymentType, JobApplication,
     JobApplicationComment, JobApplicationEmail,
     JobApplicationQuestionAnswer, JobOpening,
     JobOpeningQuestion, Question, QuestionType,
@@ -109,6 +109,12 @@ class TalentPoolApplicantAdmin(admin.ModelAdmin):
     fields = ('talent_pool', 'candidate', 'created_by', 'reason_for_adding_candidate')
     list_display = ('talent_pool', 'candidate',
                     'created_by', 'reason_for_adding_candidate')
+
+
+@admin.register(EmploymentType)
+class EmploymentTypeAdmin(admin.ModelAdmin):
+    fields = ('employment_type_name', )
+    list_display = ( 'id', 'employment_type_name')
 
 
 @admin.register(Template)
