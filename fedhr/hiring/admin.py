@@ -18,12 +18,16 @@ class JobOpeningAdmin(admin.ModelAdmin):
         'employment_type',
         'minimum_experience',
         'job_description',
+        'location_type',
         'location',
         'country',
         'city',
         'province',
         'postal_code',
         'compensation',
+        'compensation_currency',
+        'available_positions',
+        'internal_job_code',
         'removed'
         )
     list_display = (

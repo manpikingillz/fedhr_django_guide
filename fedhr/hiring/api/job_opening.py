@@ -40,16 +40,18 @@ class JobOpeningViewSet(ApiAuthMixin, ModelViewSet):
             model = JobOpening
             fields = ['id', 'job_title', 'job_status', 'hiring_lead',
                       'hiring_department', 'employment_type', 'minimum_experience',
-                      'job_description', 'location', 'country', 'city', 'province', 'postal_code',
-                      'compensation', 'created_at']
+                      'job_description', 'location', 'location_type', 'country', 'city',
+                      'province', 'postal_code', 'compensation', 'compensation_currency',
+                      'available_positions', 'internal_job_code', 'created_at']
 
     class InputSerializer(serializers.ModelSerializer):
         class Meta:
             model = JobOpening
             fields = ['id', 'job_title', 'job_status', 'hiring_lead',
                       'hiring_department', 'employment_type', 'minimum_experience',
-                      'job_description', 'location', 'country', 'city', 'province', 'postal_code',
-                      'compensation']
+                      'job_description', 'location', 'location_type', 'country', 'city',
+                      'province', 'postal_code', 'compensation', 'compensation_currency',
+                      'available_positions', 'internal_job_code', 'created_at']
 
     class FilterSerializer(serializers.Serializer):
         reports_to_id = serializers.IntegerField()
