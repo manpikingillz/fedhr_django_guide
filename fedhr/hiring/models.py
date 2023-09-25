@@ -40,6 +40,10 @@ class JobOpening(BaseModel):
         HYBRID = 'HYBRID', 'Hybrid'
         REMOTE = 'REMOTE', 'Remote'
 
+    class CompensationType(models.TextChoices):
+        HOURLY = 'HOURLY', 'Hourly'
+        MONTHLY = 'MONTHLY', 'Monthly'
+
     job_title = models.CharField(max_length=255, unique=True)
     job_status = models.CharField(
         choices=JobStatus.choices, max_length=20,
@@ -72,6 +76,8 @@ class JobOpening(BaseModel):
         max_digits=12, decimal_places=2,
         null=True, blank=True)
     compensation_currency = models.CharField(max_length=3, default=settings.DEFAULT_CURRENCY)
+    compensation_type = models.CharField(choices=CompensationType.choices, max_length=20,
+                                         null=True, blank=True)
     available_positions = models.IntegerField(default=1)
     internal_job_code = models.CharField(max_length=50, null=True, blank=True)
 

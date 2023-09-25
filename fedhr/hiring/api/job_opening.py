@@ -1,4 +1,4 @@
-from fedhr.hiring.models import JobOpening
+from fedhr.hiring.models import EmploymentType, JobOpening
 from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -42,7 +42,7 @@ class JobOpeningViewSet(ApiAuthMixin, ModelViewSet):
                       'hiring_department', 'employment_type', 'minimum_experience',
                       'job_description', 'location', 'location_type', 'country', 'city',
                       'province', 'postal_code', 'compensation', 'compensation_currency',
-                      'available_positions', 'internal_job_code', 'created_at']
+                      'compensation_type', 'available_positions', 'internal_job_code', 'created_at']
 
     class InputSerializer(serializers.ModelSerializer):
         class Meta:
@@ -51,7 +51,7 @@ class JobOpeningViewSet(ApiAuthMixin, ModelViewSet):
                       'hiring_department', 'employment_type', 'minimum_experience',
                       'job_description', 'location', 'location_type', 'country', 'city',
                       'province', 'postal_code', 'compensation', 'compensation_currency',
-                      'available_positions', 'internal_job_code', 'created_at']
+                      'compensation_type', 'available_positions', 'internal_job_code']
 
     class FilterSerializer(serializers.Serializer):
         reports_to_id = serializers.IntegerField()
@@ -73,3 +73,14 @@ class JobOpeningViewSet(ApiAuthMixin, ModelViewSet):
 
     #     serializer = self.OutputSerializer.EmployeeSerializer(direct_reports, many=True)
     #     return Response(serializer.data)
+
+
+class EmploymentTypeViewSet(ApiAuthMixin, ModelViewSet):
+    class OutputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = EmploymentType
+            fields = ['id', 'employment_type_name']
+
+    queryset = EmploymentType.objects.all()
+    serializer_class = OutputSerializer
+    pagination_class = None
