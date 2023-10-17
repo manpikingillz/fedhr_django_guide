@@ -3,6 +3,8 @@ from fedhr.common.models import BaseModel
 from fedhr.emails.models import Email
 from fedhr.employee.models import Employee, Department, Location
 from fedhr.setup.models import Country
+from django.conf import settings
+
 
 
 class EmploymentType(BaseModel):
@@ -33,6 +35,15 @@ class JobOpening(BaseModel):
         EXECUTIVE = 'EXECUTIVE', 'Executive'
         SENIOR_EXECUTIVE = 'SENIOR_EXECUTIVE', 'Senior Executive'
 
+    class LocationType(models.TextChoices):
+        OFFICE = 'OFFICE', 'Office'
+        HYBRID = 'HYBRID', 'Hybrid'
+        REMOTE = 'REMOTE', 'Remote'
+
+    class CompensationType(models.TextChoices):
+        HOURLY = 'HOURLY', 'Hourly'
+        MONTHLY = 'MONTHLY', 'Monthly'
+
     job_title = models.CharField(max_length=255, unique=True)
     job_status = models.CharField(
         choices=JobStatus.choices, max_length=20,
@@ -53,6 +64,8 @@ class JobOpening(BaseModel):
     location = models.ForeignKey(
         Location, on_delete=models.SET_NULL,
         null=True, blank=True)
+    location_type = models.CharField(choices=LocationType.choices, max_length=20,
+        null=True, blank=True)
     country = models.ForeignKey(
         Country, on_delete=models.SET_NULL,
         null=True, blank=True)
@@ -62,6 +75,12 @@ class JobOpening(BaseModel):
     compensation = models.DecimalField(
         max_digits=12, decimal_places=2,
         null=True, blank=True)
+    compensation_currency = models.CharField(max_length=3, default=settings.DEFAULT_CURRENCY)
+    compensation_type = models.CharField(choices=CompensationType.choices, max_length=20,
+                                         null=True, blank=True)
+    available_positions = models.IntegerField(default=1)
+    internal_job_code = models.CharField(max_length=50, null=True, blank=True)
+
 
     def __str__(self) -> str:
         return self.job_title

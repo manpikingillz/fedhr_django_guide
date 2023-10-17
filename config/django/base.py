@@ -326,6 +326,8 @@ GRAPHQL_JWT = {
     ],
 }
 
+DEFAULT_CURRENCY = 'USD'
+
 from config.settings.cors import *  # noqa
 from config.settings.jwt import *  # noqa
 from config.settings.sessions import *  # noqa
