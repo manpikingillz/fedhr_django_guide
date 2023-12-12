@@ -1,3 +1,7 @@
-job-to-run-the-code:
+build:
   script:
-    - python hello.py
+    - echo "This is the build job"
+
+deploy:
+  script:
+    echo "This is the deploy job"
