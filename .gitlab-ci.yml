@@ -1,21 +1,22 @@
 stages:
-  - build
+  - build-stage
+  - test-stage
   - test
-  - deploy
+  - deploy-stage
 
 build-job:
-  stage: build
+  stage: build-stage
   script:
     - echo "This is the build job"
 
 test-job:
-  stage: test
+  stage: test-stage
   script:
     - echo "This is the test job"
 
 
 deploy-job:
-  stage: deploy
+  stage: deploy-stage
   script:
     echo "This is the deploy job"
 
