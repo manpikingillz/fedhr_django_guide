@@ -18,3 +18,7 @@ deploy-job:
   stage: deploy
   script:
     echo "This is the deploy job"
+
+unallocated-job:
+  script:
+    echo "This is the unallocated job"
