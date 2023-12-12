@@ -1,25 +1,29 @@
-stages:
-  - build-stage
-  - test-stage
-  - test
-  - deploy-stage
+pre-job:
+  stage: .pre
+  script:
+    - echo "This is the .pre job"
 
 build-job:
-  stage: build-stage
+  stage: build
   script:
     - echo "This is the build job"
 
 test-job:
-  stage: test-stage
+  stage: test
   script:
     - echo "This is the test job"
 
 
 deploy-job:
-  stage: deploy-stage
+  stage: deploy
   script:
     echo "This is the deploy job"
 
 unallocated-job:
+  script:
+    echo "This is the unallocated job"
+
+post-job:
+  stage: .post
   script:
     echo "This is the unallocated job"
