@@ -4,9 +4,16 @@ pre-job:
     - echo "This is the .pre job"
 
 build-job:
+  image: node
   stage: build
   script:
     - echo "This is the build job"
+    - npm install
+  artifacts:
+    paths: 
+      - node_modeuls
+      - package-lock.json
+
 
 test-job:
   stage: test
@@ -15,6 +22,7 @@ test-job:
 
 
 deploy-job:
+  image: node
   stage: deploy
   script:
     echo "This is the deploy job"
