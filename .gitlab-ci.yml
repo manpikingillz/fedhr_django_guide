@@ -13,7 +13,7 @@ build-job:
   stage: build
   script:
     - echo "This is the build job"
-    - npm install
+    # - npm install
   artifacts:
     paths:
       - node_modules
