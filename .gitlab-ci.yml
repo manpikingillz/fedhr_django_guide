@@ -7,7 +7,7 @@ pre-job:
 
 build-job:
   tags:
-    - shared-windows
+    - gilbert
   stage: build
   script:
     - echo "This is the build job"
