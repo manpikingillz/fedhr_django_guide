@@ -1,17 +1,18 @@
+image: node
+
 pre-job:
   stage: .pre
   script:
     - echo "This is the .pre job"
 
 build-job:
-  image: node
   stage: build
   script:
     - echo "This is the build job"
     - npm install
   artifacts:
-    paths: 
-      - node_modeuls
+    paths:
+      - node_modules
       - package-lock.json
 
 
@@ -22,7 +23,6 @@ test-job:
 
 
 deploy-job:
-  image: node
   stage: deploy
   script:
     echo "This is the deploy job"
