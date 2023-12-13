@@ -6,6 +6,8 @@ pre-job:
     - echo "This is the .pre job"
 
 build-job:
+  tags:
+    - shared-windows
   stage: build
   script:
     - echo "This is the build job"
