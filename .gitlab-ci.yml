@@ -1,6 +1,11 @@
-variables_job:
+variables:
+  NAME: 'Gilbert'
+  MESSAGE: 'Testing Custom variables'
+
+display_variables:
   script:
     - echo $CI_COMMIT_MESSAGE
     - echo $CI_JOB_NAME
+    - echo "Custom - Name is $NAME, and message is $MESSAGE"
   tags:
     - localrunner
