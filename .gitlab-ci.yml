@@ -1,20 +1,4 @@
-stages:
-  - build_stage
-  - deploy_stage
-
-build:
-  stage: build_stage
+variables_job:
   script:
-    - docker --version
-    - docker build -t pyapp .
-  tags:
-    - localshell
-    - localrunner
-
-deploy:
-  stage: deploy_stage
-  script:
-    - docker run -d --name pyappcontainer -p 6000:8099 pyapp
-  tags:
-    - localshell
-    - localrunner
+    - echo $CI_COMMIT_MESSAGE
+    - echo $CI_JOB_NAME
