@@ -1,49 +1,20 @@
-image: node
+stages:
+  - build_stage
+  - deploy_stage
 
-pre-job:
-  tags:
-    - gilbert
-  stage: .pre
+build:
+  stage: build_stage
   script:
-    - echo "This is the .pre job"
-
-build-job:
+    - docker --version
+    - docker build -t pyapp .
   tags:
-    - gilbert
-  stage: build
+    - localshell
+    - localrunner
+
+deploy:
+  stage: deploy_stage
   script:
-    - echo "This is the build job"
-    # - npm install
-  artifacts:
-    paths:
-      - node_modules
-      - package-lock.json
-
-
-test-job:
+    - docker run -d --name pyappcontainer -p 6000:8099 pyapp
   tags:
-    - gilbert
-  stage: test
-  script:
-    - echo "This is the test job"
-
-
-deploy-job:
-  tags:
-    - gilbert
-  stage: deploy
-  script:
-    echo "This is the deploy job"
-
-unallocated-job:
-  tags:
-    - gilbert
-  script:
-    echo "This is the unallocated job"
-
-post-job:
-  tags:
-    - gilbert
-  stage: .post
-  script:
-    echo "This is the unallocated job"
+    - localshell
+    - localrunner
