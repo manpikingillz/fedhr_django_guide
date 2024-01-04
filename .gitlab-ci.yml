@@ -15,3 +15,15 @@ secret_variables:
     - echo $GIL_SECRET_VAR
   tags:
     - localrunner
+
+build:
+  image: docker:latest
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo "The registry is $CI_REGISTRY"
+  script:
+    - docker build -t registry.gitlab.com/gtwesigomwe1/fedhr_django_guide .
+    - docker images
+    - docker push registry.gitlab.com/gtwesigomwe1/fedhr_django_guide
+  tags:
+    - localrunner
