@@ -9,3 +9,9 @@ display_variables:
     - echo "Custom - Name is $NAME, and message is $MESSAGE"
   tags:
     - localrunner
+
+secret_variables:
+  script:
+    - echo $GIL_SECRET_VAR
+  tags:
+    - localrunner
