@@ -42,8 +42,8 @@ build:
     - docker push registry.gitlab.com/gtwesigomwe1/fedhr_django_guide
   tags:
     - localrunner
-  only:
-    - main
+  # only:
+  #   - main
 
 deploy:
   stage: deploy_production
@@ -63,5 +63,5 @@ deploy:
     - docker push registry.gitlab.com/gtwesigomwe1/fedhr_django_guide
   tags:
     - localrunner
-  only:
-    - main
+  # only:
+  #   - main
