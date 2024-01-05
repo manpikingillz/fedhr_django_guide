@@ -1,5 +1,8 @@
 stages:
-  - 
+  - display_variables_stage
+  - secret_variables_stage
+  - build_stage
+
 variables:
   NAME: 'Gilbert'
   MESSAGE: 'Testing Custom variables'
