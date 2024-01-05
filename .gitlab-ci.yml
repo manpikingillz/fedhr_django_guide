@@ -65,3 +65,4 @@ deploy:
     - localrunner
   # only:
   #   - main
+  when: manual
