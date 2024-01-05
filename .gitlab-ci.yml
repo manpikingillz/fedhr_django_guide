@@ -2,6 +2,7 @@ stages:
   - display_variables_stage
   - secret_variables_stage
   - build_stage
+  - deploy_production
 
 variables:
   NAME: 'Gilbert'
@@ -26,6 +27,30 @@ secret_variables:
 build:
   stage: build_stage
   image: docker:latest # this provides a client, but not a daemon.
+  environment:
+    name: staging
+    url: https://staging.example.com
+  services:
+    - docker:dind # provides a docker daemon to run docker commands.
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo "The registry is $CI_REGISTRY"
+    - echo "Registry image is $CI_REGISTRY_IMAGE"
+  script:
+    - docker build -t registry.gitlab.com/gtwesigomwe1/fedhr_django_guide .
+    - docker images
+    - docker push registry.gitlab.com/gtwesigomwe1/fedhr_django_guide
+  tags:
+    - localrunner
+  only:
+    - main
+
+deploy:
+  stage: deploy_production
+  image: docker:latest # this provides a client, but not a daemon.
+  environment:
+    name: production
+    url: https://production.example.com
   services:
     - docker:dind # provides a docker daemon to run docker commands.
   before_script:
