@@ -1,8 +1,11 @@
+stages:
+  - 
 variables:
   NAME: 'Gilbert'
   MESSAGE: 'Testing Custom variables'
 
 display_variables:
+  stage: display_variables_stage
   script:
     - echo $CI_COMMIT_MESSAGE
     - echo $CI_JOB_NAME
@@ -11,16 +14,21 @@ display_variables:
     - localrunner
 
 secret_variables:
+  stage: secret_variables_stage
   script:
     - echo $GIL_SECRET_VAR
   tags:
     - localrunner
 
 build:
+  stage: build_stage
   image: docker:latest
+  services:
+    - docker:dind
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - echo "The registry is $CI_REGISTRY"
+    - echo "Registry image is $CI_REGISTRY_IMAGE"
   script:
     - docker build -t registry.gitlab.com/gtwesigomwe1/fedhr_django_guide .
     - docker images
