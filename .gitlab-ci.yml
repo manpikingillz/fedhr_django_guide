@@ -50,6 +50,7 @@ build:
     - localrunner
   # only:
   #   - main
+  timeout: 1m
 
 deploy:
   stage: deploy_production
