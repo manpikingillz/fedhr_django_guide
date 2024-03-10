@@ -1,7 +1,10 @@
 from typing import List, Dict, Any, Tuple
 
-from fedhr.common.types import DjangoModelType
 from django.core.exceptions import ValidationError
+from django.db import transaction
+
+from fedhr.common.types import DjangoModelType
+
 
 def model_update(
     *,
@@ -61,3 +64,35 @@ def model_delete(
         fields=fields,
         data=data
     )
+
+
+@transaction.atomic
+def generic_model_update(
+    *,
+    instance: DjangoModelType,
+    data: Dict[str, Any]
+) -> DjangoModelType:
+    model_fields = list(vars(instance).keys())
+    model_fields.remove('id')
+
+    for field in model_fields:
+        if field == '_state':
+            model_fields.remove('_state')
+
+        if field.endswith('_id'):
+            modified_field = field[:-3]
+            model_fields.remove(field)
+            model_fields.append(modified_field)
+
+    if not instance:
+        INSTANCE_IS_NONE = f'You attempted updating a \
+            {instance.__class__.__name__} that does not exist!'
+        raise ValidationError(INSTANCE_IS_NONE)
+
+    _employee, has_updated = model_update(
+        instance=instance,
+        fields=model_fields,
+        data=data
+    )
+
+    return _employee

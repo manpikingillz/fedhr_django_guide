@@ -1,0 +1,49 @@
+image: node
+
+pre-job:
+  tags:
+    - gilbert
+  stage: .pre
+  script:
+    - echo "This is the .pre job"
+
+build-job:
+  tags:
+    - gilbert
+  stage: build
+  script:
+    - echo "This is the build job"
+    # - npm install
+  artifacts:
+    paths:
+      - node_modules
+      - package-lock.json
+
+
+test-job:
+  tags:
+    - gilbert
+  stage: test
+  script:
+    - echo "This is the test job"
+
+
+deploy-job:
+  tags:
+    - gilbert
+  stage: deploy
+  script:
+    echo "This is the deploy job"
+
+unallocated-job:
+  tags:
+    - gilbert
+  script:
+    echo "This is the unallocated job"
+
+post-job:
+  tags:
+    - gilbert
+  stage: .post
+  script:
+    echo "This is the unallocated job"

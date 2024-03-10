@@ -36,6 +36,8 @@ class LimitOffsetPagination(_LimitOffsetPagination):
         """
         We redefine this method in order to return `limit` and `offset`.
         This is used by the frontend to construct the pagination itself.
+        limit: Is the number of records we want to return
+        offset: If we have 100 records, and our offset is 10, then we're starting from the 11th record.
         """
         return Response(OrderedDict([
             ('limit', self.limit),

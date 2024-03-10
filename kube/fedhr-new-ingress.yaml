@@ -1,0 +1,69 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: fedhrnew
+  name: fedhrnew-ingress-vue-frontend
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/actions.response-503: >
+      {"type":"fixed-response","fixedResponseConfig":{"contentType":"text/plain","statusCode":"503","messageBody":"503 error text"}}
+spec:
+  ingressClassName: alb
+  rules:
+  - host: hrapp.fedspar.com
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: fedhr-new-vue-nginx-service
+            port:
+              number: 3000
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: fedhrnew
+  name: fedhrnew-ingress-django-backend
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/actions.response-503: >
+      {"type":"fixed-response","fixedResponseConfig":{"contentType":"text/plain","statusCode":"503","messageBody":"503 error text"}}
+spec:
+  ingressClassName: alb
+  rules:
+  - host: backend.fedspar.com
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: fedhr-new-django-service
+            port:
+              number: 8000
+
+# # https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource
+
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: fedhrnew-ingress
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: /
+#   namespace: fedhrnew
+# spec:
+#   rules:
+#   - host: backend.fedspar.com
+#   - http:
+#       paths:
+#       - path: /
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: fedhrnew-django-service
+#             port:
+#               number: 8000
+

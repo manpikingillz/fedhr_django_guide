@@ -1,65 +1,69 @@
 version: "3.9"
 
 services:
-  db:
-    image: postgres:14.1
-    environment:
-      - POSTGRES_DB=fedhr_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+  # db:
+  #   image: postgres:14.1
+  #   environment:
+  #     - POSTGRES_DB=fedhr_db
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
 
-  rabbitmq:
-    image: "rabbitmq:alpine"
+  # rabbitmq:
+  #   image: "rabbitmq:alpine"
 
-    healthcheck:
-      test: rabbitmq-diagnostics -q ping
-      interval: 30s
-      timeout: 30s
-      retries: 3
+  #   healthcheck:
+  #     test: rabbitmq-diagnostics -q ping
+  #     interval: 30s
+  #     timeout: 30s
+  #     retries: 3
 
   django:
     build:
       context: .
       dockerfile: docker/local.Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
+    command: sh -c 'python manage.py makemigrations &&
+                    python manage.py migrate &&
+                    python manage.py runserver 0.0.0.0:8000'
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/fedhr_db
+      # - DATABASE_URL=postgres://postgres:postgres@db:5432/fedhr_db
+      - DATABASE_URL=postgres://postgres:postgres@host.docker.internal:5432/fedhr_db
       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
     volumes:
       - .:/app
     ports:
       - "8000:8000"
-    depends_on:
-      - db
-      - rabbitmq
+    stdin_open: true
+    # depends_on:
+    #   - db
+    #   - rabbitmq
     restart: on-failure
 
-  celery:
-    build:
-      context: .
-      dockerfile: docker/local.Dockerfile
-    command: celery -A fedhr.tasks worker -l info --without-gossip --without-mingle --without-heartbeat
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/fedhr_db
-      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
-    volumes:
-      - .:/app
-    depends_on:
-      - db
-      - rabbitmq
-    restart: on-failure
+  # celery:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/local.Dockerfile
+  #   command: celery -A fedhr.tasks worker -l info --without-gossip --without-mingle --without-heartbeat
+  #   environment:
+  #     - DATABASE_URL=postgres://postgres:postgres@db:5432/fedhr_db
+  #     - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
+  #   volumes:
+  #     - .:/app
+  #   depends_on:
+  #     - db
+  #     - rabbitmq
+  #   restart: on-failure
 
-  beats:
-    build:
-      context: .
-      dockerfile: docker/local.Dockerfile
-    command: celery -A fedhr.tasks beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/fedhr_db
-      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
-    volumes:
-      - .:/app
-    depends_on:
-      - db
-      - rabbitmq
-    restart: on-failure
+  # beats:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/local.Dockerfile
+  #   command: celery -A fedhr.tasks beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+  #   environment:
+  #     - DATABASE_URL=postgres://postgres:postgres@db:5432/fedhr_db
+  #     - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
+  #   volumes:
+  #     - .:/app
+  #   depends_on:
+  #     - db
+  #     - rabbitmq
+  #   restart: on-failure

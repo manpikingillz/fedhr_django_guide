@@ -1,0 +1,22 @@
+{
+  "name": "fedhr_django_guide",
+  "version": "1.0.0",
+  "description": "---",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manpikingillz/fedhr_django_guide.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manpikingillz/fedhr_django_guide/issues"
+  },
+  "homepage": "https://github.com/manpikingillz/fedhr_django_guide#readme",
+  "dependencies": {
+    "react": "^18.2.0"
+  }
+}
