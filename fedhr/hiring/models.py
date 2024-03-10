@@ -99,6 +99,13 @@ class QuestionType(BaseModel):
 
 
 class Question(BaseModel):
+    # We could use this model as a lookup to make it easy for someone
+    # who may to reuse questions across multiple job applications.
+    # We can then not need a relationship with JobOpeningQuestion
+    # so that the text from here will just be populated as text in the JobOpeningQuestion.
+    # Infact bamboohr has a section where yoou can load from previous questions. This would be it.
+    
+
     class QuestionCategory(models.TextChoices):
         '''
             Aplication Questions examples:
@@ -114,6 +121,7 @@ class Question(BaseModel):
             - What's your biggest strength?
             - Why do you want to work here?
         '''
+        # These categories might not be necessary.
         APPLICATION_QUESTION = 'APPLICATION_QUESTION', 'Application Question'
         ADDITIONAL_QUESTION = 'ADDITIONAL_QUESTION', 'Additional Question'
 
@@ -132,6 +140,8 @@ class JobOpeningQuestion(BaseModel):
     job_opening = models.ForeignKey(
         JobOpening, on_delete=models.CASCADE,
         related_name='job_opening_questions')
+    # Consider the real question text here instead of a relationship.
+    # Reason: We might be just fine having different questions per job opening.
     question = models.ForeignKey(
         Question, on_delete=models.CASCADE,
         related_name='job_opening_questions')
@@ -163,22 +173,17 @@ class Candidate(BaseModel):
     country = models.ForeignKey(
         Country, on_delete=models.CASCADE,
         null=True, blank=True)
-    date_available = models.DateTimeField(null=True, blank=True)
-    desired_salary = models.DecimalField(
-        max_digits=12, decimal_places=2,
-        null=True, blank=True)
-    resume = models.FileField(
-        upload_to='all_uploads', blank=True, null=True)
-    cover_letter = models.FileField(
-        upload_to='all_uploads', blank=True, null=True)
-    referred_by = models.CharField(max_length=100, null=True, blank=True)
+    # social media
     website = models.CharField(max_length=100, null=True, blank=True)
     twitter_username = models.CharField(max_length=50, null=True, blank=True)
+    linkedin = models.CharField(max_length=50, null=True, blank=True)
+    # education
     highest_education = models.CharField(
         max_length=255, null=True, blank=True)
     college_or_university = models.CharField(
         max_length=255, null=True, blank=True)
     referrence = models.CharField(max_length=255, null=True, blank=True)
+
 
     def __str__(self) -> str:
         return f'{self.first_name} {self.last_name}'
@@ -212,6 +217,15 @@ class JobApplication(BaseModel):
         ApplicationStatus,
         related_name='job_applications',
         on_delete=models.SET_NULL, null=True, blank=True)
+    date_available = models.DateTimeField(null=True, blank=True)
+    desired_salary = models.DecimalField(
+        max_digits=12, decimal_places=2,
+        null=True, blank=True)
+    resume = models.FileField(
+        upload_to='all_uploads', blank=True, null=True)
+    cover_letter = models.FileField(
+        upload_to='all_uploads', blank=True, null=True)
+    referred_by = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self) -> str:
         return f'{self.job_opening.job_title} : \
